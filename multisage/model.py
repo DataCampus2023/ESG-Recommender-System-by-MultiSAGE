@@ -53,7 +53,7 @@ class MultiSAGEModel(nn.Module):
 
 
 def train(dataset, args):
-    g = dataset['train-graph']
+    g = dataset
     context_ntype = dataset['context-type']
     item_ntype = dataset['item-type']
     device = torch.device(args.device)

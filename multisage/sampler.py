@@ -1,7 +1,7 @@
 import dgl
 import torch
 from torch.utils.data import IterableDataset
-from .pinsage import PinSAGESampler
+from newpinsage import PinSAGESampler
 
 
 def compact_and_copy(frontier, seeds):

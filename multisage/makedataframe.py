@@ -142,11 +142,13 @@ def makeCategoryDF(category_id):
     
     category_id_list = CrawlCategoryId(category_id)
     
-    df,total_page = makePageDF(category_id,1)
+    df = pd.DataFrame()
         
-    if total_page >1:
-        for k in category_id_list:
-            for j in [20,40,60,80]:
+    
+    for k in category_id_list:
+        for j in [20,40,60,80]:
+            new_df,total_page = makePageDF(k,1,j)
+            if total_page >1:
                 for i in range(2,total_page+1):
                     new_df, _ = makePageDF(k,i,j)
                     time.sleep(0.3)

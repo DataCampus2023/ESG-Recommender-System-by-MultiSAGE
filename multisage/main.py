@@ -20,15 +20,15 @@ if __name__ == '__main__':
     parser.add_argument('--hidden-dims', type=int, default=512)
     parser.add_argument('--batch-size', type=int, default=256)
     parser.add_argument('--device', type=str, default='cpu')
-    parser.add_argument('--num-epochs', type=int, default=5) # 4
-    parser.add_argument('--batches-per-epoch', type=int, default=1000) # 5000
+    parser.add_argument('--num-epochs', type=int, default=30) # 4
+    parser.add_argument('--batches-per-epoch', type=int, default=500) # 5000
     parser.add_argument('--num-workers', type=int, default=0)
     parser.add_argument('--lr', type=float, default=3e-5)
     parser.add_argument('-k', type=int, default=10)
     args = parser.parse_args()
 
     # Load dataset
-    with open('shampoo_data.pickle', 'rb') as f:
+    with open('haircare_data.pickle', 'rb') as f:
         dataset = pickle.load(f)
     model, h_item = train(dataset, args)
 

@@ -9,9 +9,38 @@
         "48" : "images/48.png",
         "128" : "images/128.png"
     },
+    "content_scripts":[
+        {
+            "js":["scripts/content.js"],
+            "matches":[
+                "https://developer.chrome.com/docs/extensions/*",
+                "https://developer.chrome.com/docs/webstore/*"
+            ]
+        }
+    ],
+    "background":{
+        "service_worker":"scripts/background.js"
+    },
     "action": {
-        "default_icon" : "images/32.png",
+        "default_icon" : {
+            "16":"images/16.png",
+            "32":"images/32.png",
+            "48":"images/48.png",
+            "128":"images/128.png"
+        },
         "default_title" : "ESG Product",
-        "default_popup" : "popup/popup.html"
-    }
+        "default_popup" : "./html/popup.html"
+    },
+    "commands":{
+        "_execute_action":{
+            "suggested_key":{
+                "default":"Ctrl+B",
+                "mac":"Command+B"
+            }
+        }
+    },
+    "permissions":["activeTab","scripting","tabGroups"],
+    "host_permissions":[
+        "https://developer.chrome.com/*"
+    ]
 }

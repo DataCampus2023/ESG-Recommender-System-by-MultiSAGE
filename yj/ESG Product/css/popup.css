@@ -1,7 +1,7 @@
 body{
     width: 380px;
     height: 500px;
-    background-color: #90c2ff;  
+    background-color: #64a8ff;  
     display: flex;        /* Flexbox 레이아웃 사용 */
     flex-direction: column;/* 세로 방향 배치 */
     align-items: center;   /* 가로 중앙 정렬 */

@@ -36,15 +36,13 @@
 //   });
 
 // background.js
-let popupWindow = null;
-
-chrome.action.onClicked.addListener((tab) => {
-  if (tab.url && tab.url.startsWith("https://search.shopping.naver.com/catalog/")) {
-    popupWindow = window.open('popup.html', 'popup', 'width=300,height=200');
-    if (popupWindow) {
-      console.log('팝업 창이 성공적으로 열렸습니다.');
-    } else {
-      console.error('팝업 창을 열지 못했습니다.');
-    }
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.status === "complete") {
+    chrome.tabs.get(tabId, (tab) => {
+      if (tab.url && tab.url.startsWith("https://search.shopping.naver.com")) {
+        chrome.tabs.sendMessage(tabId, { action: "showPopup" });
+      }
+    });
   }
 });
+

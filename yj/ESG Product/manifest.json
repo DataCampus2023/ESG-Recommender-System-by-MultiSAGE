@@ -48,28 +48,33 @@
 {
     "manifest_version": 3,
     "name": "ESG Product",
-    "description": "Naver Shopping 팝업 확장 프로그램",
     "version": "1.0",
-    "icons" : {
-        "16" : "images/16.png",
-        "32" : "images/32.png",
-        "48" : "images/48.png",
-        "128" : "images/128.png"
+    "permissions": ["tabs","activeTab", "scripting"],
+    "host_permissions": [
+        "https://search.shopping.naver.com/catalog/*"
+      ],
+    "icons": {
+    "16": "images/16.png",
+    "32": "images/32.png",
+    "48": "images/48.png",
+    "128": "images/128.png"
     },
-    "permissions": ["activeTab"],
+    "action": {
+      "default_popup": "html/popup.html",
+      "default_icon": {
+        "16": "/images/16.png",
+        "48": "/images/48.png",
+        "128": "/images/128.png"
+      }
+    },
     "content_scripts": [
       {
         "matches": ["https://search.shopping.naver.com/catalog/*"],
         "js": ["scripts/content.js"]
       }
     ],
-    "action": {
-      "default_popup": "html/popup.html",
-      "default_icon": {
-        "16": "images/16.png",
-        "48": "images/48.png",
-        "128": "images/128.png"
-      }
+    "background": {
+      "service_worker": "scripts/background.js"
     }
   }
   

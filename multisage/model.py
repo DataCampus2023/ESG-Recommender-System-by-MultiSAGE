@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
-
+import matplotlib.pyplot as plt
 import layers
 from sampler import ItemToItemBatchSampler, NeighborSampler, PinSAGECollator
 
@@ -95,6 +95,15 @@ def train(dataset, args):
             # print status
             if batch_id % 10 == 0:
                 print("num_epochs:", epoch_id, "||", "batches_per_epoch:", batch_id, "||", "loss:", loss)
+    
+    # Visualize learning curve
+    plt.figure(figsize=(10, 6))
+    plt.plot(range(len(loss_list)), loss_list, label='Training Loss')
+    plt.xlabel('Batch')
+    plt.ylabel('Loss')
+    plt.title('Learning Curve')
+    plt.legend()
+    plt.show()
 
     # Evaluate
     model.eval()

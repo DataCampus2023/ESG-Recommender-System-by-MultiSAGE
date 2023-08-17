@@ -45,6 +45,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const customRecommendationButton = document.querySelector('#recommend');
   const returnButton = document.querySelector('button:nth-child(3)');
 
+  const getProductNumber = (callback) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const url = tabs[0].url;
+      const match = url.match(/\/catalog\/(\d+)\?/);
+      const productNumber = match ? match[1] : null;
+      callback(productNumber);
+    });
+  };
+
   generalRecommendationButton.addEventListener('click', () => {
     window.location.href = '../html/recommendation.html'; // 일반 추천 페이지로 이동
   });
@@ -52,4 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
   customRecommendationButton.addEventListener('click', () => {
     window.location.href = '../html/select.html'; // 맞춤 추천 페이지로 이동
   });
+
+  getProductNumber((productNumber) => {
+    console.log("상품 번호:", productNumber);
+  });
+  
 });

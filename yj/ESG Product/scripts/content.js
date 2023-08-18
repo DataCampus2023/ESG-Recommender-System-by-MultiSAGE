@@ -21,7 +21,6 @@
 // content.js
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "showPopup") {
-      console.log("hi");
       //window.open('../html/popup.html', 'popup');
     }
 });

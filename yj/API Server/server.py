@@ -64,11 +64,7 @@ def get_esg_item(product_number):
         index_ids = tree.query(h_query, 100)[1]
         IDs = [index_id_to_ID[idx] for idx in index_ids]
     except KeyError:
-        # print(f"Product item {product_item} not found in the index.")
-        IDs = []
-    #raise 리턴을 넣던지 except를 
-    # 또는 다른 에러 처리 방식을 선택할 수 있습니다.
-    # 예를 들어, IDs = [] 처럼 빈 리스트로 설정할 수 있습니다.
+        raise KeyError(f"Product item {product_number} not found in the index.")
 
     
     # h_query = h_item[ID_to_index_id[product_item]]

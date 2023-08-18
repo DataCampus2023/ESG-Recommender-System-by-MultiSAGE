@@ -1,0 +1,50 @@
+// popup.js
+
+// 팝업 내 버튼 클릭 이벤트 처리
+document.addEventListener('DOMContentLoaded', function() {
+  const generalButton = document.getElementById('generalRecommendation');
+  const personalizedButton = document.getElementById('personalizedRecommendation');
+
+  // 팝업 버튼 클릭 이벤트 처리
+  generalButton.addEventListener('click', function() {
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+      const tab = tabs[0];
+      chrome.scripting.executeScript(
+        {
+          target: { tabId: tab.id },
+          function: function() {
+            // 페이지 내에서 버튼 클릭 처리를 위해 content.js 스크립트 호출
+            chrome.runtime.sendMessage({ action: 'popupButtonClicked' });
+          }
+        },
+        function(result) {
+          if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError);
+            return;
+          }
+        }
+      );
+    });
+  });
+
+  // 맞춤형 버튼 클릭 이벤트 처리 (동일한 패턴으로 처리)
+  personalizedButton.addEventListener('click', function() {
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+      const tab = tabs[0];
+      chrome.scripting.executeScript(
+        {
+          target: { tabId: tab.id },
+          function: function() {
+            chrome.runtime.sendMessage({ action: 'popupButtonClicked' });
+          }
+        },
+        function(result) {
+          if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError);
+            return;
+          }
+        }
+      );
+    });
+  });
+});

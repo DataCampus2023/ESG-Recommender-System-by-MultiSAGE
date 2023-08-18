@@ -1,5 +1,5 @@
 from final import get_ESGItem
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify , abort
 from flask_cors import CORS
 import pandas as pd
 import numpy as np
@@ -64,7 +64,7 @@ def get_esg_item(product_number):
         index_ids = tree.query(h_query, 100)[1]
         IDs = [index_id_to_ID[idx] for idx in index_ids]
     except KeyError:
-        raise KeyError(f"Product item {product_number} not found in the index.")
+        abort(500,description = f"Product item {product_number} not found in the index.")
 
     
     # h_query = h_item[ID_to_index_id[product_item]]

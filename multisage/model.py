@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import layers
 from sampler import ItemToItemBatchSampler, NeighborSampler, PinSAGECollator
 
-
 class MultiSAGEModel(nn.Module):
     def __init__(self, full_graph, ntype, ctype, hidden_dims, n_layers, gat_num_heads):
         super().__init__()
@@ -87,7 +86,7 @@ def train(dataset, args):
         for batch_id in range(args.batches_per_epoch):
             pos_graph, neg_graph, blocks, context_blocks = next(dataloader_it)
             loss = model(pos_graph, neg_graph, blocks, context_blocks).mean()
-            loss_list.append(loss)
+            loss_list.append(loss.detach().numpy())
             opt.zero_grad()
             loss.backward()
             opt.step()
@@ -96,15 +95,6 @@ def train(dataset, args):
             if batch_id % 10 == 0:
                 print("num_epochs:", epoch_id, "||", "batches_per_epoch:", batch_id, "||", "loss:", loss)
     
-    # Visualize learning curve
-    plt.figure(figsize=(10, 6))
-    plt.plot(range(len(loss_list)), loss_list, label='Training Loss')
-    plt.xlabel('Batch')
-    plt.ylabel('Loss')
-    plt.title('Learning Curve')
-    plt.legend()
-    plt.show()
-
     # Evaluate
     model.eval()
     with torch.no_grad():
@@ -113,5 +103,14 @@ def train(dataset, args):
             h_item_batch = model.get_representation(blocks, context_blocks)
             h_item_batches.append(h_item_batch)
         h_item = torch.cat(h_item_batches, 0)
+
+    # Visualize learning curve
+    plt.figure(figsize=(10, 6))
+    plt.plot(range(len(loss_list)), loss_list, label='Training Loss')
+    plt.xlabel('batches_per_epoch')
+    plt.ylabel('Loss')
+    plt.title('Learning Curve')
+    plt.legend()
+    plt.show()
 
     return model, h_item

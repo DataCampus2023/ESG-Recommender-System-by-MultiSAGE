@@ -20,18 +20,18 @@ if __name__ == '__main__':
     parser.add_argument('--hidden-dims', type=int, default=512)
     parser.add_argument('--batch-size', type=int, default=256)
     parser.add_argument('--device', type=str, default='cpu')
-    parser.add_argument('--num-epochs', type=int, default=200) # 4
+    parser.add_argument('--num-epochs', type=int, default=50) # 4
     parser.add_argument('--batches-per-epoch', type=int, default=50) # 5000
     parser.add_argument('--num-workers', type=int, default=0)
-    parser.add_argument('--lr', type=float, default=1e-4)
+    parser.add_argument('--lr', type=float, default=1e-3)
     parser.add_argument('-k', type=int, default=10)
     args = parser.parse_args()
 
     # Load dataset
-    with open('beauty_data.pickle', 'rb') as f:
+    with open('beauty_data_all.pickle', 'rb') as f:
         dataset = pickle.load(f)
     model, h_item = train(dataset, args)
 
     # Write files
-    torch.save(model.state_dict(), 'Beauty_MultiSAGE_weights.pth')
-    np.savez("Beauty_h_items.npz", item_vectors=h_item.numpy())
+    torch.save(model.state_dict(), 'Beauty_all_MultiSAGE_weights2.pth')
+    np.savez("Beauty_all_h_items2.npz", item_vectors=h_item.numpy())

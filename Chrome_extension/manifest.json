@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "ESG Product",
+  "version": "1.0",
+  "description": "Recommend products with high ESG scores",
+  "permissions": [
+    "tabs",
+    "activeTab"
+  ],
+  "host_permissions" : [
+    "https://search.shopping.naver.com/*"
+  ],
+  "icons": {
+    "16": "images/16.png",
+    "32": "images/32.png",
+    "48": "images/48.png",
+    "128": "images/128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "images/16.png",
+      "48": "images/48.png",
+      "128": "images/128.png"
+    }
+  }
+}

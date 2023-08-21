@@ -1,0 +1,28 @@
+body {
+  width: 250px;
+  height: 200px;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: #0074D9;
+  color: #FFF;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056a0;
+}

@@ -26,10 +26,13 @@ function showContent(data){
   backContainer.style.display = 'block';
   tableContainer.style.display = 'block';
   
-
+  console.log
   for(let i in data){
     const new_row = table.insertRow();
     for(let j in data[i]){
+      if (j === 'ID') {
+        continue
+      }
       const new_cell = new_row.insertCell();
       const new_item = document.createTextNode(j);
       new_cell.appendChild(new_item);
@@ -39,11 +42,28 @@ function showContent(data){
   for(let i in data){
     const new_row = table.insertRow();
     for(let j in data[i]){
-      const new_cell = new_row.insertCell();
-      let str = data[i][j];
-      if(str.length > 20) str = str.substring(0, 20);
-      const new_item = document.createTextNode(str);
-      new_cell.appendChild(new_item);
+      if (j === 'ID') {
+        continue
+      }
+      else if (j === '상품명'){
+        const new_cell = new_row.insertCell();
+        const link = document.createElement('a');
+        const url = `https://search.shopping.naver.com/catalog/${data[i]['ID']}?`;
+        link.href = `#`; // 링크 주소를 적절하게 수정해주세요
+        link.id = `link${i}`
+        link.textContent = data[i][j];
+        new_cell.appendChild(link);
+        document.getElementById(`link${i}`).addEventListener('click', function() {
+          chrome.tabs.create({ url: url });
+        });
+      }
+      else {
+        const new_cell = new_row.insertCell();
+        let str = data[i][j];
+        if(str.length > 100) str = str.substring(0, 100);
+        const new_item = document.createTextNode(str);
+        new_cell.appendChild(new_item);
+      }
     }
   }
 }

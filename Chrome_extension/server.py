@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask
 from flask_cors import CORS
 import pandas as pd
 import numpy as np
@@ -91,10 +91,10 @@ def get_esg_item(product_number):
         df3['Vegan'] * 0.3
     ).clip(0, 10)
 
-    sorted_df = df3.sort_values(by='ESG_Score', ascending=False).head()
-    sorted_df = sorted_df[['상품명', '특징', 'ESG_Score']]
-    sorted_df.reset_index()
-
+    sorted_df = df3.sort_values(by='ESG_Score', ascending=False).head(7)
+    sorted_df = sorted_df.reset_index()
+    sorted_df = sorted_df[['상품명', 'ID', '특징', 'ESG_Score']]
+    
     return sorted_df.to_json(orient="index")
 
 @app.route('/get_attribute/<product_number>', methods=['GET'])
@@ -151,9 +151,9 @@ def get_esg_item_personal(addNumbers):
         df3['Vegan'] * 0.3
     ).clip(0, 10)
 
-    sorted_df = df3.sort_values(by='ESG_Score', ascending=False).head()
-    sorted_df = sorted_df[['상품명', '특징', 'ESG_Score']]
-    sorted_df.reset_index()
+    sorted_df = df3.sort_values(by='ESG_Score', ascending=False).head(7)
+    sorted_df = sorted_df.reset_index()
+    sorted_df = sorted_df[['상품명', 'ID', '특징', 'ESG_Score']]
 
     return sorted_df.to_json(orient="index")
     

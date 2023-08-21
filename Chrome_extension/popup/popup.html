@@ -4,12 +4,6 @@
   <meta charset="UTF-8">
   <title>ESG 추천</title>
   <link rel="stylesheet" type="text/css" href="popup.css">
-  <style>
-    body{
-      width : 300px;
-      height : 400px;
-    }
-  </style>
 </head>
 <body>
   <div class="container">
@@ -25,7 +19,8 @@
       <button id="backButton">뒤로 가기</button>
     </div>
     <div id="radioButtonContainer", style="display: none;">
-      <input type='radio', name='attribute', value='none' />없음
+      <input type='radio', name='attribute', value='none'/>
+      <label for="attribute">없음</label>
     </div>
     <div id="makeResultContainer" style="display: none;">
       <button id="makePersonalizedRecommendation">추천 결과 보기</button>

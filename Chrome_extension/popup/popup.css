@@ -1,7 +1,120 @@
-body {
-  width: 250px;
-  height: 200px;
+body{
+  width : 500px;
+  height : 600px;
   font-family: Arial, sans-serif;
+  background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+  background: linear-gradient(to right, #25c481, #25b7c4);
+  background-size: cover;
+  background-position: center;
+}
+
+/* 테이블 전체 스타일 */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ccc;
+  font-family: Arial, sans-serif;
+}
+
+/* 테이블 헤더 스타일 */
+thead {
+  background-color: #f2f2f2;
+}
+
+/* 테이블 헤더 셀 스타일 */
+th {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 2px solid #ccc;
+  color: #333;
+}
+
+/* 테이블 내용 셀 스타일 */
+td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* 짝수 행 배경색 스타일 */
+tbody tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+/* 홀수 행 배경색 스타일 */
+tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+/* 링크 스타일 */
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* 마우스 호버 시 행 배경색 스타일 */
+tbody tr:hover {
+  background-color: #e0f2fe;
+}
+
+/* 테이블 마지막 행 스타일 */
+tbody tr:last-child {
+  border-bottom: 2px solid #ccc;
+}
+
+input[type=radio] {
+  --s: 3em;     /* control the size */
+  --c: #009688; /* the active color */
+  
+  height: var(--s);
+  aspect-ratio: 1;
+  border: calc(var(--s)/8) solid #939393;
+  padding: calc(var(--s)/8);
+  background: 
+     radial-gradient(farthest-side,var(--c) 94%,#0000) 
+     50%/0 0 no-repeat content-box;
+  border-radius: 50%;
+  outline-offset: calc(var(--s)/10);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  font-size: inherit;
+  transition: .3s;
+}
+input[type=radio]:checked {
+  border-color: var(--c);
+  background-size: 100% 100%;
+}
+
+input[type=radio]:disabled {
+  background: 
+     linear-gradient(#939393 0 0) 
+     50%/100% 20% no-repeat content-box;
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+@media print {
+  input[type=radio] {
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    appearance: auto;
+    background: none;
+  }
+}
+
+label {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  margin:5px 0;
+  cursor: pointer;
+  font-size: 30px;
 }
 
 .container {
@@ -15,7 +128,7 @@ body {
 button {
   padding: 10px 20px;
   margin: 5px;
-  background-color: #0074D9;
+  background-color: green;
   color: #FFF;
   border: none;
   cursor: pointer;
@@ -24,5 +137,5 @@ button {
 }
 
 button:hover {
-  background-color: #0056a0;
+  background-color: rgb(4, 176, 4);
 }

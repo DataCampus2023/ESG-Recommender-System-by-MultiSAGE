@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "ESG Product",
+  "name": "E. SE. GU",
   "version": "1.0",
-  "description": "Recommend products with high ESG scores",
+  "description": "이 제품이 세상을 구한다고?",
   "permissions": [
     "tabs",
     "activeTab"

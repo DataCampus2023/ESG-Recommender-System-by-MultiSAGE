@@ -1,31 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>ESG 추천</title>
-  <link rel="stylesheet" type="text/css" href="popup.css">
+  <title>ESG Product</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="popup.css">
+  <script src="popup.js"></script>
 </head>
-<body>
-  <div class="container">
+
+<body style='
+width: 400px;
+height: 600px;
+'>
+
+<div id="explore">
+  
+  <main class="container">
     <div id="tableContainer" style="display: none;">
       <table id="resultTable" border="1">
       </table>
     </div>
-    <div id="buttonContainer">
-      <button id="generalRecommendation">일반 추천</button>
-      <button id="personalizedRecommendation">맞춤형 추천</button>
+
+    <div class="headers" id="header">
+      <img src="esegu6_1.PNG" alt="로고">
+      <p><b>이 제품이 세상을 바꾼다고?</b></p>
     </div>
+
+    <div class="headers" id="radioButtonHeader" style="display: none;">
+      <p><b>현재 상품의 특징 중 원하는 하나만 선택해<br/> 주세요!</b></p>
+    </div>
+
+    <div id="buttonContainer">
+      <div class="exp-location">
+        <img src="earth.png" class="exp-image"/>
+        <div class="exp-details">
+          <a href="#" class="exp-card -title" id="generalRecommendation">
+            <h1 class="heading -h1">일반 추천</h1>
+            <div class="subheading">상품의 전반적인 특성과 ESG Score를 모두 고려해 전체적으로 가장 적합한 상품을 추천합니다.</div>
+          </a>
+        </div>
+      </div>
+      <div class="exp-location">
+        <img src="personal_recommend.png" class="exp-image"/>
+        <div class="exp-details">
+          <a href="#" class="exp-card -title" id="personalizedRecommendation">
+            <h1 class="heading -h1">맞춤형 추천</h1>
+            <div class="subheading">상품의 특성 중에서 하나를 선택한 후 이 특성을 중심으로 가장 적합한 상품을 추천합니다.</div>
+          </a>
+        </div>
+      </div>
+    </div>
+
     <div id="backContainer" style="display: none;">
       <button id="backButton">뒤로 가기</button>
     </div>
-    <div id="radioButtonContainer", style="display: none;">
-      <input type='radio', name='attribute', value='none'/>
-      <label for="attribute">없음</label>
-    </div>
+
+    <div id="radioButtonContainer" style="display:none">
+      <br/>
+    </div> 
+
     <div id="makeResultContainer" style="display: none;">
       <button id="makePersonalizedRecommendation">추천 결과 보기</button>
     </div>
-  </div>
-  <script src="popup.js"></script>
+  </main>
+</div>
+<!-- <script src="popup.js"></script> -->
 </body>
 </html>

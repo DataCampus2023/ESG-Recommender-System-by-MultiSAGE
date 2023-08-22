@@ -8,7 +8,7 @@ from urllib.parse import unquote
 from scipy import spatial 
 from model import MultiSAGEModel
 from sampler import ItemToItemBatchSampler, NeighborSampler, PinSAGECollator
-import ast
+import ast  
 
 df1 = pd.read_excel('data.xlsx')
 # '+'가 들어가 있는 행 제거

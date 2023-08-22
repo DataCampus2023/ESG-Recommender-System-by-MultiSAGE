@@ -4,6 +4,8 @@ function extractProductNumberFromURL(url) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+const header = document.getElementById('header');
+const radioButtonHeader = document.getElementById('radioButtonHeader');
 const buttonContainer = document.getElementById('buttonContainer');
 const backContainer = document.getElementById('backContainer');
 const tableContainer = document.getElementById('tableContainer');
@@ -20,6 +22,8 @@ const attribute = document.getElementsByName('attribute');
 
 function showContent(data){
 
+  header.style.display = 'none';
+  radioButtonHeader.style.display = 'none';
   buttonContainer.style.display = 'none';
   makeResultContainer.style.display = 'none';
   radioButtonContainer.style.display = 'none';
@@ -69,30 +73,32 @@ function showContent(data){
 }
 
 function makeRadiobutton(data){
-
+  header.style.display = 'none';
   buttonContainer.style.display = 'none';
   radioButtonContainer.style.display = 'block';
   makeResultContainer.style.display = 'block';
+  radioButtonHeader.style.display = 'flex';
 
-  console.log(data)
-  for(let i in data){
-    for(let j in data[i]){
+  for (let i in data) {
+    for (let j in data[i]) {
       var radiobox = document.createElement('input');
       radiobox.type = 'radio';
       radiobox.name = 'attribute';
       radiobox.value = data[i][j];
-      console.log(data[i][j])
 
       var label = document.createElement('label');
-      label.htmlFor = 'attribute';  // label과 input 요소를 연결
-
+      label.htmlFor = 'attribute';
+  
       var description = document.createTextNode(data[i][j]);
+
+      var lineBreak = document.createElement('br'); // 줄바꿈 요소 추가
       label.appendChild(description);
-   
-      radioButtonContainer.appendChild(radiobox);
-      radioButtonContainer.appendChild(label);
+      radioButtonContainer.appendChild(radiobox)
+      radioButtonContainer.appendChild(label); // 새로운 div를 radioButtonContainer에 추가
+      radioButtonContainer.appendChild(lineBreak);
     }
   }
+  
 }
 
 generalButton.addEventListener('click', function() {
@@ -152,7 +158,7 @@ makePersonalizedRecommendation.addEventListener('click', function() {
       const addNumbers = productNumber.toString() + '&' + chackNodes
       console.log(addNumbers)
 
-      if (productNumber | chackNodes != '없음') {
+      if (productNumber && chackNodes !== '없음') {
         fetch(`http://localhost:5000/get_ESGItem_personal/${addNumbers}`)
           .then(response => response.json())
           .then(data => {
@@ -164,7 +170,7 @@ makePersonalizedRecommendation.addEventListener('click', function() {
           console.log('성공!')
       }
 
-      else if (productNumber | chackNodes == '없음') {
+      else if (productNumber && chackNodes === '없음') {
         fetch(`http://localhost:5000/get_ESGItem/${productNumber}`)
           .then(response => response.json())
           .then(data => {
@@ -183,6 +189,8 @@ backButton.addEventListener('click', function() {
   backContainer.style.display = 'none';
   tableContainer.style.display = 'none';
   makeResultContainer.style.display = 'none';
+  header.style.display = 'flex';
+  radioButtonHeader.style.display = 'none';
   buttonContainer.style.display = 'block';
 
   const table_r_count = table.rows.length;
@@ -192,9 +200,9 @@ backButton.addEventListener('click', function() {
   const children = radioButtonContainer.children;
   for (let i = children.length - 1; i >= 0; i--) {
     const child = children[i];
-    if (child.tagName !== 'INPUT' || child.value !== 'none') {
-      radioButtonContainer.removeChild(child);
-  }
+
+    radioButtonContainer.removeChild(child);
+    
 }
 });
 });

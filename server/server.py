@@ -93,7 +93,7 @@ def get_esg_item(product_number):
 
     sorted_df = df3.sort_values(by='ESG_Score', ascending=False).head(7)
     sorted_df = sorted_df.reset_index()
-    sorted_df = sorted_df[['상품명', 'ID', '특징', 'ESG_Score']]
+    sorted_df = sorted_df[['이미지','상품명', 'ID', '특징', 'ESG_Score']]
     
     return sorted_df.to_json(orient="index")
 

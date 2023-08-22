@@ -61,6 +61,12 @@ function showContent(data){
           chrome.tabs.create({ url: url });
         });
       }
+      else if (j==='이미지'){
+        const new_cell = new_row.insertCell();
+        const link = document.createElement('img');
+        link.src = data[i][j];
+        new_cell.appendChild(link);
+      }
       else {
         const new_cell = new_row.insertCell();
         let str = data[i][j];

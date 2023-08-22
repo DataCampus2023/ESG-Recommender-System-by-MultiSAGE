@@ -4,7 +4,6 @@ function extractProductNumberFromURL(url) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-const buttonContainer = document.getElementById('buttonContainer');
 const backContainer = document.getElementById('backContainer');
 const tableContainer = document.getElementById('tableContainer');
 const iconContainer = document.getElementById('icon-Container');
@@ -12,9 +11,7 @@ const radioButtonContainer = document.getElementById('radioButtonContainer');
 const makeResultContainer = document.getElementById('makeResultContainer');
 
 const backButton = document.getElementById('backButton');
-const personalButton = document.getElementById('personalizedRecommendation'); //맞춤 추천
 const makePersonalizedRecommendation = document.getElementById('makePersonalizedRecommendation');
-const generalButton = document.getElementById('generalRecommendation'); //일반 추천
 const iconButton1 = document.getElementById('icon1Recommendation'); //일반 추천
 const iconButton2 = document.getElementById('icon2Recommendation'); //맞춤형 추천
 
@@ -23,7 +20,6 @@ const attribute = document.getElementsByName('attribute');
 
 function showContent(data){
 
-  buttonContainer.style.display = 'none';
   makeResultContainer.style.display = 'none';
   radioButtonContainer.style.display = 'none';
   iconContainer.style.display = 'none'
@@ -74,7 +70,6 @@ function showContent(data){
 
 function makeRadiobutton(data){
   iconContainer.style.display = 'none'
-  buttonContainer.style.display = 'none';
   radioButtonContainer.style.display = 'block';
   makeResultContainer.style.display = 'block';
 
@@ -97,28 +92,6 @@ function makeRadiobutton(data){
     }
   }
 }
-
-generalButton.addEventListener('click', function() {
-  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    const currentTab = tabs[0];
-    if (currentTab && currentTab.url) {
-      const currentURL = currentTab.url;
-      const productNumber = extractProductNumberFromURL(currentURL);
-
-      if (productNumber) {
-        fetch(`http://localhost:5000/get_ESGItem/${productNumber}`)
-          .then(response => response.json())
-          .then(data => {
-            showContent(data);
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
-          console.log('성공!')
-      }
-    }
-  });
-});
 iconButton1.addEventListener('click', function() {
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     const currentTab = tabs[0];
@@ -157,26 +130,6 @@ iconButton2.addEventListener('click', function() {
             console.error('Error:', error);
           });
           console.log('성공!')
-      }
-    }
-  });
-});
-personalButton.addEventListener('click', function() {
-  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    const currentTab = tabs[0];
-    if (currentTab && currentTab.url) {
-      const currentURL = currentTab.url;
-      const productNumber = extractProductNumberFromURL(currentURL);
-
-      if (productNumber) {
-        fetch(`http://localhost:5000/get_attribute/${productNumber}`)
-          .then(response => response.json())
-          .then(data => {
-            makeRadiobutton(data);
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
       }
     }
   });
@@ -229,7 +182,6 @@ backButton.addEventListener('click', function() {
   backContainer.style.display = 'none';
   tableContainer.style.display = 'none';
   makeResultContainer.style.display = 'none';
-  buttonContainer.style.display = 'block';
   iconContainer.style.display = 'block'
 
   const table_r_count = table.rows.length;

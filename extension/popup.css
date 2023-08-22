@@ -1,6 +1,6 @@
-html {
+body {
   background-image: linear-gradient(to bottom right, #E1BEE7, #B2EBF2);
-  height: 200%;
+  width : 380px;
 }
 
 /* 테이블 전체 스타일 */
@@ -76,14 +76,13 @@ button {
   font-family: Helvetica, sans-serif;
   font-weight: 100;
   color: #fff;
-
 }
 
 h1 {
-  letter-spacing: 0.5em;
+  /* letter-spacing: 0.5em; */
+  /* margin-top: 50px; */
+  /* line-height: 1.6em; */
   text-align: center;
-  margin-top: 50px;
-  line-height: 1.6em;
 }
 
 p {
@@ -103,12 +102,11 @@ p {
 .icon-heading {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 24px; /*이미지에 픽셀을 맞춤*/
 }
 
-.icon-heading i {
-  margin: 0 10px;
-  font-size: 24px;
-}
 .icon-Container {
   display: flex;
   flex-direction: column;

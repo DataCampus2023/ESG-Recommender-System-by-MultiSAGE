@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ESG 추천</title>
+  <link rel="stylesheet" type="text/css" href="popup.css">
+  <style>
+    body{
+      width : 500px;
+      height : 800px;
+    }
+    h1{ text-align : center}
+  </style>
+</head>
+<body>
+  <div class="icon-heading">
+    <img src="images/eco (2).png" />
+    <h1>ESG RECOMMENDATION</h1>
+    <img src="images/eco (2).png" />
+  </div>
+  <div class="container">
+    <div id="tableContainer" style="display: none;">
+      <table id="resultTable" border="1">
+      </table>
+    </div>
+    <div id="icon-Container">
+      <p>유사한 상품을 추천합니다</p>
+      <button id = "icon1Recommendation" class="icon-button">
+        <img src="images/eco-friendly (1).png" />
+      </button>
+
+      <p>특징을 고른 상품을 추천합니다</p>
+      <button id = "icon2Recommendation" class="icon-button">
+        <img src="images/quality.png" />
+      </button>
+    </div>
+    
+    <div id="buttonContainer">
+      <p>유사한 상품을 추천합니다</p>
+      <button id="generalRecommendation" class="button-one">
+        일반 추천
+        <div class="fill-one"></div>
+      </button>
+
+      <p>특징을 고른 상품을 추천합니다</p>
+      <button id="personalizedRecommendation" class="button-two">
+        맞춤형 추천
+        <div class="fill-two"></div>
+      </button>
+
+    </div>
+    <div id="backContainer" style="display: none;">
+      <button id="backButton" class="button-one">
+        뒤로 가기
+        <div class="fill-one"></div>
+      </button>
+    </div>
+    <div id="radioButtonContainer" style="display: none;">
+      <input type='radio', name='attribute', value='none'/>
+      <label for="attribute">없음</label>
+    </div>
+    <div id="makeResultContainer" style="display: none;">
+      <button id="makePersonalizedRecommendation" class="button-two">
+        추천 결과 보기
+        <div class="fill-two"></div>
+      </button>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

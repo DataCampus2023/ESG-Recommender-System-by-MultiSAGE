@@ -1,4 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,300);
+
+/* 기본 틀 설정 */
 html {
   font-size: 2vh;
 }
@@ -18,6 +20,13 @@ body {
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.4);
 }
 
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 button {
   padding: 10px 20px;
   margin: 5px;
@@ -25,113 +34,41 @@ button {
   color: #FFF;
   cursor: pointer;
   border-radius: 5px;
+  border-color: gray;
   transition: background-color 0.3s;
+  border-style: solid;
 }
 
-.exp-gallery > img, .exp-facts > .exp-dots, .exp-facts, .exp-image > img, .exp-image, .exp-card.-info > *, .exp-card, .exp-details, .exp-location, .exp-main, .exp-header, .exp-footer {
+
+/* 실행 시 애니매이션 */
+.exp-image > img, .exp-card, .exp-details, .exp-location, .exp-main, .exp-header {
   transition: all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
+
+/* 제목 부분 */
 .headers {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 10vh; /* 조절하시면 됩니다. */
+  height: 10vh; 
   color: white;
   font-size: 16px;
 }
 
 .headers img {
   width: 250px; /* 로고 크기 조절 */
-  height: 100px; /* 로고 크기 조절 */
+  height: 100px; 
 }
 
+
+/* 전체 양식 설정 */
 #explore {
   height: 96vh;
   width: 54vh;
   background: -webkit-linear-gradient(left, #25c481, #25b7c4);
   overflow: hidden;
-}
-
-@-webkit-keyframes inactive-location-top {
-  100% {
-    transform: translateY(-100%);
-  }
-}
-
-@keyframes inactive-location-top {
-  100% {
-    transform: translateY(-100%);
-  }
-}
-
-@-webkit-keyframes gallery-title {
-  33% {
-    opacity: 0;
-    transform: translateY(3rem);
-  }
-  66% {
-    animation-timing-funtion: step-end;
-    background-color: transparent;
-  }
-  67% {
-    -webkit-animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
-            animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
-    background-color: transparent;
-    transform: translateY(-59.4vh);
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-    background-color: transparent;
-    transform: translateY(-32.4vh);
-  }
-}
-
-@keyframes gallery-title {
-  33% {
-    opacity: 0;
-    transform: translateY(3rem);
-  }
-  66% {
-    animation-timing-funtion: step-end;
-    background-color: transparent;
-  }
-  67% {
-    -webkit-animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
-            animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
-    background-color: transparent;
-    transform: translateY(-59.4vh);
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-    background-color: transparent;
-    transform: translateY(-32.4vh);
-  }
-}
-
-.exp-dots {
-  flex-basis: 5rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  height: 9vh;
-}
-
-.exp-dot {
-  height: 1rem;
-  width: 1rem;
-  border-radius: 50%;
-  border-style: solid;
-  border-width: 0.25rem;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-.exp-dot.-active {
-  background-color: white;
-  border-color: white;
 }
 
 .container {
@@ -141,6 +78,7 @@ button {
   width: 100%;
 }
 
+/* 추천 메인 버튼 설정 */
 .exp-location {
   position: absolute;
   left: 0;
@@ -178,13 +116,11 @@ button {
   transform-origin: right 50%;
   box-shadow: -2px -2px grey;
 }
-
 .exp-details {
   position: absolute;
   top: 0;
   left: 0;
 }
-
 .exp-card {
   display: flex;
   flex-direction: column;
@@ -212,7 +148,6 @@ button {
 .exp-card.-info > .subheading {
   color: #999;
 }
-
 .exp-image {
   width: 100%;
   height: 32.4vh;
@@ -224,8 +159,6 @@ button {
 .exp-image > img {
   width: 100%;
 }
-
-
 .heading {
   font-size: 200%;
   font-weight: 400;
@@ -236,12 +169,12 @@ button {
 .heading.-h2 {
   margin-bottom: 0.5rem;
 }
-
 .subheading {
   font-size: 115%;
   font-weight: 300;
 }
 
+/* pulse 애니메이션 설정 */
 .route:target ~ #explore .exp-location > .exp-image[href]:before, .exp-card.-title:before {
   content: "";
   width: 3rem;
@@ -257,7 +190,6 @@ button {
           animation: pulse 1.5s 3s infinite;
   pointer-events: none;
 }
-
 
 @-webkit-keyframes pulse {
   from {
@@ -322,22 +254,8 @@ button {
   }
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
 
-*, *:before, *:after {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  box-sizing: border-box;
-  position: relative;
-}
-
+/* 테이블 */
 /* 테이블 전체 스타일 */
 table {
   border-collapse: collapse;
@@ -346,22 +264,17 @@ table {
   font-family: Arial, sans-serif;
 }
 
-/* 테이블 헤더 스타일 */
-thead {
-  background-color: #f2f2f2;
-}
-
 /* 테이블 헤더 셀 스타일 */
 th {
-  padding: 12px;
-  text-align: left;
+  padding: 5px;
+  text-align: center;
   border-bottom: 2px solid #ccc;
   color: #333;
 }
 
 /* 테이블 내용 셀 스타일 */
 td {
-  padding: 10px;
+  padding: 2px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
@@ -376,16 +289,6 @@ tbody tr:nth-child(odd) {
   background-color: #fff;
 }
 
-/* 링크 스타일 */
-a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
 /* 마우스 호버 시 행 배경색 스타일 */
 tbody tr:hover {
   background-color: #e0f2fe;
@@ -396,6 +299,19 @@ tbody tr:last-child {
   border-bottom: 2px solid #ccc;
 }
 
+
+/* 링크 스타일 */
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+/* 라디오 버튼 양식 설정 */
 input[type=radio] {
   --s: 13px;     /* control the size */
   --c: #009688; /* the active color */

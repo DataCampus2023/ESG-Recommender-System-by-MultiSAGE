@@ -82,18 +82,18 @@ def get_esg_item(product_number):
     df3['S_Grade'] = df3['제조사'].map(df2.set_index('제조사')['사회']).fillna('X')
     df3['G_Grade'] = df3['제조사'].map(df2.set_index('제조사')['지배구조']).fillna('X')
     
-    df3['Vegan'] = df3['특징'].str.contains('비건').astype(int)
+    df3['친환경'] = df3['특징'].str.contains('비건').astype(int)
     
     df3['ESG_Score'] = (
         df3['E_Grade'].map(grade_scores) * 0.4 +
         df3['S_Grade'].map(grade_scores) * 0.2 +
         df3['G_Grade'].map(grade_scores) * 0.1 +
-        df3['Vegan'] * 0.3
+        df3['친환경'] * 0.3
     ).clip(0, 10)
 
-    sorted_df = df3.sort_values(by='ESG_Score', ascending=False).head(7)
+    sorted_df = df3.sort_values(by='ESG_Score', ascending=False).head()
     sorted_df = sorted_df.reset_index()
-    sorted_df = sorted_df[['이미지','상품명', 'ID', '특징', 'ESG_Score']]
+    sorted_df = sorted_df[['이미지','상품명', 'ID', '특징', 'ESG_Score', 'E_Grade', 'S_Grade', 'G_Grade','친환경']]
     
     return sorted_df.to_json(orient="index")
 
@@ -142,19 +142,19 @@ def get_esg_item_personal(addNumbers):
     df3['S_Grade'] = df3['제조사'].map(df2.set_index('제조사')['사회']).fillna('X')
     df3['G_Grade'] = df3['제조사'].map(df2.set_index('제조사')['지배구조']).fillna('X')
     
-    df3['Vegan'] = df3['특징'].str.contains('비건').astype(int)
+    df3['친환경'] = df3['특징'].str.contains('비건').astype(int)
     
     df3['ESG_Score'] = (
         df3['E_Grade'].map(grade_scores) * 0.4 +
         df3['S_Grade'].map(grade_scores) * 0.2 +
         df3['G_Grade'].map(grade_scores) * 0.1 +
-        df3['Vegan'] * 0.3
+        df3['친환경'] * 0.3
     ).clip(0, 10)
 
-    sorted_df = df3.sort_values(by='ESG_Score', ascending=False).head(7)
+    sorted_df = df3.sort_values(by='ESG_Score', ascending=False).head()
     sorted_df = sorted_df.reset_index()
-    sorted_df = sorted_df[['상품명', 'ID', '특징', 'ESG_Score']]
-
+    sorted_df = sorted_df[['이미지','상품명', 'ID', '특징', 'ESG_Score', 'E_Grade', 'S_Grade', 'G_Grade','친환경']]
+    
     return sorted_df.to_json(orient="index")
     
 

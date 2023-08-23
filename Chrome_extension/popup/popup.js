@@ -29,22 +29,27 @@ function showContent(data){
   radioButtonContainer.style.display = 'none';
   backContainer.style.display = 'block';
   tableContainer.style.display = 'block';
-  
-  console.log
-  for(let i in data){
+
+
+  for (let i in data) {
     const new_row = table.insertRow();
-    for(let j in data[i]){
-      if (j === 'ID') {
-        continue
+
+    for (let j in data[i]) {
+      if (j === 'ID' || j ==='E_Grade'|| j=== 'S_Grade'|| j=== 'G_Grade' || j === '친환경') {
+        continue;
       }
-      const new_cell = new_row.insertCell();
+      const new_cell = document.createElement('th');
       const new_item = document.createTextNode(j);
       new_cell.appendChild(new_item);
+      new_row.appendChild(new_cell)
     }
     break;
   }
-  for(let i in data){
+
+  for (let i in data) {
     const new_row = table.insertRow();
+    const hoverRow = table.insertRow(); // 여분의 행
+    let scoreContent = ''
     for(let j in data[i]){
       if (j === 'ID') {
         continue
@@ -67,6 +72,17 @@ function showContent(data){
         link.src = data[i][j];
         new_cell.appendChild(link);
       }
+      else if (j === 'E_Grade' || j === 'S_Grade' || j === 'G_Grade') {
+        scoreContent = scoreContent + j + ': ' + data[i][j] + ', ';
+      }
+      else if (j ==='친환경'){
+        if (data[i][j]===0){
+          scoreContent = scoreContent + j + ': ' + 'X';
+        }
+        else {
+          scoreContent = scoreContent + j + ': ' + 'O';
+        }
+      }
       else {
         const new_cell = new_row.insertCell();
         let str = data[i][j];
@@ -75,6 +91,22 @@ function showContent(data){
         new_cell.appendChild(new_item);
       }
     }
+    const hoverCell = document.createElement('td');
+    hoverCell.textContent = scoreContent;
+    hoverCell.setAttribute('colspan',4)
+    hoverRow.appendChild(hoverCell)
+    hoverRow.style.display = 'none'; // 여분의 행은 기본적으로 숨김 처리
+    hoverRow.style.backgroundColor = '#e0f2fe';
+  
+    // 호버 시 여분의 행 표시
+    new_row.addEventListener('mouseover', function () {
+      hoverRow.style.display = 'table-row';
+    });
+  
+    // 호버를 벗어날 때 여분의 행 숨김
+    new_row.addEventListener('mouseout', function () {
+      hoverRow.style.display = 'none';
+    });
   }
 }
 

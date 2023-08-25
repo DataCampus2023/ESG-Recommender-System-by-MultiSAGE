@@ -411,7 +411,7 @@ if __name__ == '__main__':
     add_attribute(df,'성분')
     add_attribute(df,'이미지')
 
-    df.to_excel('data.xlsx')
+    df.to_excel('dataset/data.xlsx')
 
     # 데이터 전처리
     for i in range(len(df)):
@@ -452,9 +452,9 @@ if __name__ == '__main__':
     # 그래프 생성 및 그래프 데이터 저장
     g, attributes = graph_maker(df)
 
-    attributes.to_excel('attribute_df.xlsx')
+    attributes.to_excel('dataset/attribute_df.xlsx')
 
-    output_path = 'graph_data.dgl'
+    output_path = 'dataset/graph_data.dgl'
     dgl.save_graphs(output_path, [g])
 
     dataset = {
@@ -464,6 +464,6 @@ if __name__ == '__main__':
         'context-to-item-type': 'define',
         'item-to-context-type': 'define-by'}
 
-    with open('graph_data.pickle', 'wb') as f:
+    with open('dataset/graph_data.pickle', 'wb') as f:
         pickle.dump(dataset, f)
 

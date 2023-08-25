@@ -3,7 +3,7 @@ import torch
 from torch.utils.data import IterableDataset
 from newpinsage import PinSAGESampler
 
-
+# DGL 그래프 객체에서 주어진 노드와 연결된 edge들을 포함하는 block을 생성하는 함수
 def compact_and_copy(frontier, seeds):
     block = dgl.to_block(g=frontier, dst_nodes=seeds)
     for col, data in frontier.edata.items():
@@ -12,7 +12,7 @@ def compact_and_copy(frontier, seeds):
         block.edata[col] = data[block.edata[dgl.EID]]
     return block
 
-
+# DGL 그래프 객체에서 특정 노드 유형에 대한 node feature 데이터를 추출하여 주어진 노드 데이터에 할당하는 함수
 def assign_simple_node_features(ndata, g, ntype, assign_id=False):
     for col in g.nodes[ntype].data.keys():
         if not assign_id and col == dgl.NID:
@@ -20,12 +20,12 @@ def assign_simple_node_features(ndata, g, ntype, assign_id=False):
         induced_nodes = ndata[dgl.NID]
         ndata[col] = g.nodes[ntype].data[col][induced_nodes]
 
-
+# DGL 라이브러리(Distributed Graph Library)를 사용하여 그래프 블록에 노드 특성을 할당하는 함수
 def assign_features_to_blocks(blocks, g, ntype):
     assign_simple_node_features(blocks[0].srcdata, g, ntype)
     assign_simple_node_features(blocks[-1].dstdata, g, ntype)
 
-
+# DGL 라이브러리(Distributed Graph Library)를 사용하여 그래프 데이터에서 컨텍스트 블록을 샘플링하는 함수
 def sample_context_blocks(g, blocks, context_dicts, ntype, ctype):
     context_blocks = []
     for block, context_dict in zip(blocks, context_dicts):
@@ -48,7 +48,7 @@ def sample_context_blocks(g, blocks, context_dicts, ntype, ctype):
         context_blocks.append(sample_graph.nodes[ctype].data)
     return context_blocks
 
-
+# PyTorch의 IterableDataset 클래스를 MultiSAGE에 맞게 확장한 ItemToItemBatchSampler를 정의히는 class
 class ItemToItemBatchSampler(IterableDataset):
     def __init__(self, g, user_type, item_type, batch_size):
         self.g = g
@@ -70,7 +70,7 @@ class ItemToItemBatchSampler(IterableDataset):
             mask = (tails != -1)
             yield heads[mask], tails[mask], neg_tails[mask]
 
-
+# 그래프 데이터에서 노드 간의 이웃 샘플링을 수행하여 그래프 신경망 모델을 위한 미니배치를 생성하는 class
 class NeighborSampler(object):
     def __init__(self, g, user_type, item_type, random_walk_length, random_walk_restart_prob,
                  num_random_walks, num_neighbors, num_layers):
@@ -117,7 +117,7 @@ class NeighborSampler(object):
         blocks, context_dicts = self.sample_blocks(seeds, heads, tails, neg_tails)
         return pos_graph, neg_graph, blocks, context_dicts
 
-
+# 그래프 데이터와 이웃 샘플러를 활용하여 PyTorch 데이터 로더가 사용할 수 있는 형태로 데이터를 전처리하고 배치를 생성하는 class
 class PinSAGECollator(object):
     def __init__(self, sampler, g, ntype, ctype):
         self.sampler = sampler

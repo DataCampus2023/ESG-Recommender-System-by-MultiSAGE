@@ -1,6 +1,6 @@
 import dgl
 
-
+# Dataframe을 그래프로 바꾸어주는 Class
 class PandasGraphBuilder(object):
     def __init__(self):
         self.entity_pk_to_name = {}

@@ -1,3 +1,5 @@
+# 기존 dgl 모듈에 있는 pinsage.py를 MultiSAGE에서 사용할 수 있도록 변형한 모듈
+
 from collections import Counter
 
 import numpy as np
@@ -10,7 +12,7 @@ from dgl.sampling.neighbor import select_topk
 from dgl.base import EID
 from dgl import utils
 
-
+# Random Walk 방법으로 그래프의 이웃을 Sampling하는 class
 class RandomWalkNeighborSampler(object):
     def __init__(self, G, num_traversals, termination_prob,
                  num_random_walks, num_neighbors, metapath=None, weight_column='weights'):
@@ -105,7 +107,7 @@ class RandomWalkNeighborSampler(object):
         neighbor_graph.edata[self.weight_column] = selected_counts
         return neighbor_graph, context_dicts
 
-
+# PinSAGE에서 사용하는 Sampler에 MultiSAGE에서도 사용할 수 있게 엣지 타입과 노드 타입에 대한 정보도 추가
 class PinSAGESampler(RandomWalkNeighborSampler):
     def __init__(self, G, ntype, other_type, num_traversals, termination_prob,
                  num_random_walks, num_neighbors, weight_column='weights'):

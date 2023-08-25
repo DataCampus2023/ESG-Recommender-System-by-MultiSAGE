@@ -28,10 +28,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Load dataset
-    with open('graph_data.pickle', 'rb') as f:
+    with open('dataset/graph_data.pickle', 'rb') as f:
         dataset = pickle.load(f)
     model, h_item = train(dataset, args)
 
     # Write files
-    torch.save(model.state_dict(), 'MultiSAGE_weights_test.pth')
+    torch.save(model.state_dict(), 'dataset/MultiSAGE_weights_test.pth')
     np.savez("h_items.npz", item_vectors=h_item.numpy())

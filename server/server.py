@@ -10,20 +10,20 @@ from model import MultiSAGEModel
 from sampler import ItemToItemBatchSampler, NeighborSampler, PinSAGECollator
 import ast  
 
-df1 = pd.read_excel('data.xlsx')
+df1 = pd.read_excel('../multisage/dataset/data.xlsx')
 # '+'가 들어가 있는 행 제거
 # df1 = df1[~df1['상품명'].str.contains('\+')]
 # '세트'가 들어가 있는 행 제거
 # df1 = df1[~df1['상품명'].str.contains('세트')]
 # df1.drop_duplicates(subset='상품명', keep='first', inplace=True)
 
-df2 = pd.read_excel('ESG Score.xlsx')
+df2 = pd.read_excel('../multisage/dataset/ESG/ESG Score.xlsx')
 df2 = df2.rename(columns={'기업명':'제조사'})
-attribute_df = pd.read_excel('attribute_df.xlsx')
+attribute_df = pd.read_excel('../multisage/dataset/attribute_df.xlsx')
 
-g = dgl.load_graphs('beauty_graph.dgl')[0][0]
-saved_npz = np.load('Beauty_all_h_items.npz')
-load_dict = torch.load('Beauty_all_MultiSAGE_weights.pth')
+g = dgl.load_graphs('../multisage/dataset/graph_data.dgl')[0][0]
+saved_npz = np.load('../multisage/dataset/h_items.npz')
+load_dict = torch.load('../multisage/dataset/MultiSAGE_weights.pth')
 h_item = saved_npz['item_vectors']
 tree = spatial.KDTree(h_item.tolist())
 

@@ -5,12 +5,12 @@ import dgl
 import dgl.function as fn
 from dgl.nn.functional import edge_softmax
 
-
+# 주어진 모듈의 모든 파라미터를 학습되지 않도록 설정하는 함수
 def disable_grad(module):
     for param in module.parameters():
         param.requires_grad = False
 
-
+# 그래프의 노드 타입에 따라 입력 모듈을 초기화하는 함수
 def _init_input_modules(g, ntype, hidden_dims):
     module_dict = nn.ModuleDict()
 
@@ -31,7 +31,7 @@ def _init_input_modules(g, ntype, hidden_dims):
 
     return module_dict
 
-
+# GNN의 입력 layer
 class LinearProjector(nn.Module):
     def __init__(self, full_graph, ntype, hidden_dims):
         super().__init__()
@@ -49,7 +49,7 @@ class LinearProjector(nn.Module):
 
         return torch.stack(projections, 1).sum(1)
 
-
+# GAT Layer
 class GATLayer(nn.Module):
     def __init__(self, input_dims):
         super(GATLayer, self).__init__()
@@ -70,7 +70,7 @@ class GATLayer(nn.Module):
         attention = edge_softmax(block, block.edata['attn'])
         return attention
 
-
+# 여러 개의 GATLayer를 쌓아서 Multi-Head Graph Attention Mechanism을 구현한 class
 class MultiHeadGATLayer(nn.Module):
     def __init__(self, input_dims, num_heads, merge='mean'):
         super(MultiHeadGATLayer, self).__init__()
@@ -86,7 +86,7 @@ class MultiHeadGATLayer(nn.Module):
         else:  # concatenate
             return torch.cat(head_outs, dim=0)
 
-
+# Multi-Head Graph Attention Mechanism을 활용하여 그래프 데이터의 특성을 변환하는 클래스
 class MultiSAGEConv(nn.Module):
     def __init__(self, input_dims, hidden_dims, output_dims, gat_num_heads, act=F.relu):
         super().__init__()
@@ -149,7 +149,7 @@ class MultiSAGEConv(nn.Module):
             z = z / z_norm
             return z
 
-
+# 그래프 데이터에서 입력 특성을 처리하여 그래프 node들의 hidden 상태를 업데이트하는 class
 class MultiSAGENet(nn.Module):
     def __init__(self, hidden_dims, n_layers, gat_num_heads):
         super().__init__()
@@ -167,7 +167,7 @@ class MultiSAGENet(nn.Module):
                 h = layer(block, (h, h_dst), context_node)
         return h
 
-
+# 아이템 간의 관계 점수를 계산한 후, 각 아이템의 편향(bias) 값을 계산해주는 class
 class ItemToItemScorer(nn.Module):
     def __init__(self, full_graph, ntype):
         super().__init__()

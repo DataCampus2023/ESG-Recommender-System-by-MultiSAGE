@@ -11,11 +11,6 @@ from sampler import ItemToItemBatchSampler, NeighborSampler, PinSAGECollator
 import ast  
 
 df1 = pd.read_excel('../multisage/dataset/data.xlsx')
-# '+'가 들어가 있는 행 제거
-# df1 = df1[~df1['상품명'].str.contains('\+')]
-# '세트'가 들어가 있는 행 제거
-# df1 = df1[~df1['상품명'].str.contains('세트')]
-# df1.drop_duplicates(subset='상품명', keep='first', inplace=True)
 
 df2 = pd.read_excel('../multisage/dataset/ESG/ESG Score.xlsx')
 df2 = df2.rename(columns={'기업명':'제조사'})
@@ -48,15 +43,7 @@ def get_esg_item(product_number):
     h_query = h_item[ID_to_index_id[int(product_number)]]
     index_ids = tree.query(h_query, 100)[1]
     IDs = [index_id_to_ID[idx] for idx in index_ids]
-    # try:
-    #     h_query = h_item[ID_to_index_id[product_number]]
-    #     index_ids = tree.query(h_query, 100)[1]
-    #     IDs = [index_id_to_ID[idx] for idx in index_ids]
-    # except KeyError:
-    #     IDs = []
-    #raise 리턴을 넣던지 except를 
-    # 또는 다른 에러 처리 방식을 선택할 수 있습니다.
-    # 예를 들어, IDs = [] 처럼 빈 리스트로 설정할 수 있습니다.
+
     df3 = df1[df1['ID'].isin(IDs)]
     df3 = df3[df3['상품 카테고리 소분류'] == df1[df1['ID'] == int(product_number)]['상품 카테고리 소분류'].values[0]]
     

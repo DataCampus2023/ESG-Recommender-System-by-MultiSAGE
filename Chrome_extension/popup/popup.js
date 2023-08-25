@@ -83,6 +83,15 @@ function showContent(data){
           scoreContent = scoreContent + j + ': ' + 'O';
         }
       }
+      else if(j==='특징'){
+        const new_cell = new_row.insertCell();
+        let str = data[i][j];
+        str = str.replace(/^\[|\'|\]$/g, '');
+        str = str.replace(/\'\s*,\s*\'/g, ', ');
+        if(str.length > 100) str = str.substring(0, 100);
+        const new_item = document.createTextNode(str);
+        new_cell.appendChild(new_item);
+      }
       else {
         const new_cell = new_row.insertCell();
         let str = data[i][j];

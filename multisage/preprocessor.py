@@ -1,12 +1,8 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 from requests import request
 from requests.compat import *
 from bs4 import BeautifulSoup
+import dgl
+import pickle
 import pandas as pd
 import math
 import time
@@ -15,7 +11,7 @@ import torch
 import numpy as np
 import pandas as pd
 import math
-from .builder import PandasGraphBuilder
+from builder import PandasGraphBuilder
 import ast
 
 def makePageDF(category_id, page_id, pagingsize):
@@ -113,9 +109,6 @@ def makePageDF(category_id, page_id, pagingsize):
     return None, None
 
 
-# In[2]:
-
-
 def CrawlCategoryId(category_id, filename='categoryId.csv'):
     url = 'https://search.shopping.naver.com/search/category/'
     headers = {'User-Agent': 'Yeti',}
@@ -168,9 +161,6 @@ def CrawlCategoryId(category_id, filename='categoryId.csv'):
     return list(category_df['value'])
 
 
-# In[3]:
-
-
 def makeCategoryDF(category_id):
 
     category_id_list = CrawlCategoryId(category_id)
@@ -200,8 +190,6 @@ def makeCategoryDF(category_id):
 
     return df
 
-
-# In[4]:
 
 
 def add_attribute(df,name):
@@ -341,7 +329,7 @@ def add_attribute(df,name):
 def graph_maker(df):
 
     attributes_df, attributes, attributes_merged_df = seperateDF(df, '특징')
-    feel_df, feels, feel_merged_df = seperateDF(df,'느낌')
+    feel_df, _, _ = seperateDF(df,'느낌')
 
     graph_builder = PandasGraphBuilder()
     graph_builder.add_entities(attributes, '특징_id', '특징')
@@ -388,7 +376,7 @@ def graph_maker(df):
     print("Graph structure:")
     print(g)
 
-    return g
+    return g, attributes
 
 
 def seperateDF(df, name):
@@ -414,4 +402,68 @@ def seperateDF(df, name):
     return df_copy, attributes, merged_df
 
 
+
+
+if __name__ == '__main__':
+
+    # 데이터 수집 및 데이터 저장
+    df = makeCategoryDF(100001026) # 이곳 카테고리 ID 수정! (실제 수집 카테고리 ID는 100000003, 테스트용은 100001026)
+    add_attribute(df,'성분')
+    add_attribute(df,'이미지')
+
+    df.to_excel('data.xlsx')
+
+    # 데이터 전처리
+    for i in range(len(df)):
+        
+        new_features = []
+        new_feelings = []
+
+        for j in df['특징'][i]:
+            if ', ' in j:
+                new_features.extend(j.split(', '))
+                for k in j.split(', '):
+                    if ',' in k:
+                        new_features.extend(k.split(','))
+            elif ',' in j:
+                new_features.extend(j.split(','))
+                for k in j.split(','):
+                    if ', ' in k:
+                        new_features.extend(k.split(', '))
+            else:
+                new_features.append(j)
+
+        for j in df['느낌'][i]:
+            if ', ' in j:
+                new_feelings.extend(j.split(', '))
+                for k in j.split(', '):
+                    if ',' in k:
+                        new_feelings.extend(k.split(','))
+            elif ',' in j:
+                new_feelings.extend(j.split(','))
+                for k in j.split(','):
+                    if ', ' in k:
+                        new_feelings.extend(k.split(', '))
+            else:
+                new_feelings.append(j)
+        df.at[i, '느낌'] = new_feelings
+
+
+    # 그래프 생성 및 그래프 데이터 저장
+    g, attributes = graph_maker(df)
+
+    attributes.to_excel('attribute_df.xlsx')
+
+    output_path = 'graph_data.dgl'
+    dgl.save_graphs(output_path, [g])
+
+    dataset = {
+        'train-graph': g,
+        'context-type': '특징',
+        'item-type': '상품',
+        'context-to-item-type': 'define',
+        'item-to-context-type': 'define-by'}
+
+    with open('graph_data.pickle', 'wb') as f:
+        pickle.dump(dataset, f)
 

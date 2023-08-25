@@ -62,6 +62,7 @@ def get_esg_item(product_number):
     
     grade_scores = {
         'S': 10,
+        1: 5,
         'A+': 8.8,
         'A': 8.0,
         'A-': 7.2,
@@ -74,7 +75,8 @@ def get_esg_item(product_number):
         'D+': 1.6,
         'D': 0.8,
         '-': 0,
-        'X': 0
+        'X': 0,
+        0: 0
     }
 
     df3 = df3.reset_index()
@@ -85,11 +87,10 @@ def get_esg_item(product_number):
     df3['친환경'] = df3['특징'].str.contains('비건').astype(int)
     
     df3['ESG_Score'] = (
-        df3['E_Grade'].map(grade_scores) * 0.4 +
-        df3['S_Grade'].map(grade_scores) * 0.2 +
-        df3['G_Grade'].map(grade_scores) * 0.1 +
-        df3['친환경'] * 0.3
-    ).clip(0, 10)
+        df3['E_Grade'].map(grade_scores) * 0.5 +
+        df3['S_Grade'].map(grade_scores) * 0.3 +
+        df3['G_Grade'].map(grade_scores) * 0.2
+    ).clip(0, 10) + df3['친환경'].map(grade_scores)
 
     sorted_df = df3.sort_values(by='ESG_Score', ascending=False).head()
     sorted_df = sorted_df.reset_index()
@@ -122,6 +123,7 @@ def get_esg_item_personal(addNumbers):
     
     grade_scores = {
         'S': 10,
+        1: 5,
         'A+': 8.8,
         'A': 8.0,
         'A-': 7.2,
@@ -134,7 +136,8 @@ def get_esg_item_personal(addNumbers):
         'D+': 1.6,
         'D': 0.8,
         '-': 0,
-        'X': 0
+        'X': 0,
+        0: 0
     }
 
     df3 = df3.reset_index()
@@ -145,11 +148,10 @@ def get_esg_item_personal(addNumbers):
     df3['친환경'] = df3['특징'].str.contains('비건').astype(int)
     
     df3['ESG_Score'] = (
-        df3['E_Grade'].map(grade_scores) * 0.4 +
-        df3['S_Grade'].map(grade_scores) * 0.2 +
-        df3['G_Grade'].map(grade_scores) * 0.1 +
-        df3['친환경'] * 0.3
-    ).clip(0, 10)
+        df3['E_Grade'].map(grade_scores) * 0.5 +
+        df3['S_Grade'].map(grade_scores) * 0.3 +
+        df3['G_Grade'].map(grade_scores) * 0.2
+    ).clip(0, 10) + df3['친환경'].map(grade_scores)
 
     sorted_df = df3.sort_values(by='ESG_Score', ascending=False).head()
     sorted_df = sorted_df.reset_index()

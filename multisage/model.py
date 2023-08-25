@@ -1,10 +1,13 @@
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
+import numpy as np
 import matplotlib.pyplot as plt
 import layers
 from sampler import ItemToItemBatchSampler, NeighborSampler, PinSAGECollator
+import random
 
+# MultiSAGE 모델 호출 시 사용
 class MultiSAGEModel(nn.Module):
     def __init__(self, full_graph, ntype, ctype, hidden_dims, n_layers, gat_num_heads):
         super().__init__()
@@ -50,7 +53,7 @@ class MultiSAGEModel(nn.Module):
             h = h_item_dst + self.multisage(blocks, h_item, (z_c, z_c_dst), attn_index)
             return h
 
-
+# 학습 함수
 def train(dataset, args):
     g = dataset['train-graph']
     context_ntype = dataset['context-type']
@@ -78,23 +81,30 @@ def train(dataset, args):
 
     # Optimizer
     opt = torch.optim.Adam(model.parameters(), lr=args.lr)
-    loss_list = []
+    train_loss_list = []
+    val_loss_list = []
 
     # For each batch of head-tail-negative triplets
     for epoch_id in range(args.num_epochs):
         model.train()
+        loss_batches_per_epoch = []
         for batch_id in range(args.batches_per_epoch):
             pos_graph, neg_graph, blocks, context_blocks = next(dataloader_it)
             loss = model(pos_graph, neg_graph, blocks, context_blocks).mean()
-            loss_list.append(loss.detach().numpy())
+            loss_batches_per_epoch.append(loss.detach().numpy())
             opt.zero_grad()
-            loss.backward()
+            loss.backward() 
             opt.step()
 
             # print status
             if batch_id % 10 == 0:
                 print("num_epochs:", epoch_id, "||", "batches_per_epoch:", batch_id, "||", "loss:", loss)
-    
+        train_loss_batches_per_epoch = random.sample(loss_batches_per_epoch,40)
+        val_loss_batches_per_epoch = [x for x in loss_batches_per_epoch if x not in train_loss_batches_per_epoch]
+        train_mean = np.mean(train_loss_batches_per_epoch)
+        val_mean = np.mean(val_loss_batches_per_epoch)
+        train_loss_list.append(train_mean)
+        val_loss_list.append(val_mean)
     # Evaluate
     model.eval()
     with torch.no_grad():
@@ -106,8 +116,9 @@ def train(dataset, args):
 
     # Visualize learning curve
     plt.figure(figsize=(10, 6))
-    plt.plot(range(len(loss_list)), loss_list, label='Training Loss')
-    plt.xlabel('batches_per_epoch')
+    plt.plot(range(len(train_loss_list)), train_loss_list, label='Training Loss')
+    plt.plot(range(len(val_loss_list)), val_loss_list, label='Val Loss')
+    plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.title('Learning Curve')
     plt.legend()

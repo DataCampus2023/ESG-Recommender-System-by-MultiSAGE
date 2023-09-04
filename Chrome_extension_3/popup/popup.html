@@ -24,14 +24,14 @@
         <div id="generalRecommendation">
           <div class="si-logo"><img src="../images/recycle.png"></div>
           <div class="si-right">
-            <div class="si-name">일반 추천</div>
+            <div class="si-name">종합 추천</div>
             <div class="si-code-num"><p>상품 관련 일반 추천을 제공합니다</p></div>
           </div>
         </div>
         <div id="personalizedRecommendation">
           <div class="si-logo"><img src="../images/nature.png"></div>
           <div class="si-right">
-            <div class="si-name">맞춤형 추천</div>
+            <div class="si-name">선호 요소 추천</div>
             <div class="si-code-num"><p>원하시는 특징의 맞춤형 추천을 제공합니다</p></div>
           </div>
         </div>
@@ -40,6 +40,29 @@
           <div class="si-right">
             <div class="si-name">ESG</div>
             <div class="si-code-num"><p>ESG 관련 정보를 제공합니다</p></div>
+          </div>
+        </div>
+      </div>
+      <div id="esgContainer" style="display:none;">
+        <div id="krx">
+          <div class="si-logo"><img src="../images/krx.png"></div>
+          <div class="si-right">
+            <div class="si-name">한국거래소</div>
+            <div class="si-code-num"><p><a href="https://esg.krx.co.kr" target="_blank">더 자세한 내용은 이 링크를 클릭하세요</a></p></div>
+          </div>
+        </div>
+        <div id="esggrade">
+          <div class="si-logo"><img src="../images/한국esg기준원.png"></div>
+          <div class="si-right">
+            <div class="si-name">한국ESG기준원</div>
+            <div class="si-code-num"><p><a href="https://www.cgs.or.kr/main/main.jsp" target="_blank">더 자세한 내용은 이 링크를 클릭하세요</a></p></div>
+          </div>
+        </div>
+        <div id="msci">
+          <div class="si-logo"><img src="../images/msci.png"></div>
+          <div class="si-right">
+            <div class="si-name">MSCI</div>
+            <div class="si-code-num"><p><a href="https://www.msci.com/our-solutions/esg-investing/esg-ratings-climate-search-tool" target="_blank">더 자세한 내용은 이 링크를 클릭하세요</a></p></div>
           </div>
         </div>
       </div>
@@ -53,10 +76,24 @@
           <div class="fill-two"></div>
         </button>
       </div>
+      <form id="scoreForm" style="display: none;">
+        <h1>점수 비율 입력</h1>
+        <h2>Defalut: E : 0.5, S : 0.3, G : 0.2</h2>
+        <label for="E_score">E_score 비율:</label><br>
+        <input type="number" id="E_score" name="E_score" value="0.5" required><br>
+        <br>
+        <label for="S_score">S_score 비율:</label><br>
+        <input type="number" id="S_score" name="S_score" value="0.3" required><br>
+        <br>
+        <label for="G_score">G_score 비율:</label><br>
+        <input type="number" id="G_score" name="G_score" value="0.2" required><br>
+        <br>
+        <button type="button" id="saveButton">저장</button>
+      </form>
     </div>
     <div id="navbar">
       <div class="box">
-        <div class="home-page"><img src="../images/3trcwtn2 (2).png"></div>
+        <div class="setting-page"><img src="../images/setting2.png" id="setting"></div>
         <div class="search-page"><img src="../images/2ntttu49 (2).png"></div>
         <div class="mine-page"><img src="../images/4pvpnq6z (2).png"></div>
       </div>

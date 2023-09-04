@@ -75,7 +75,7 @@ body {
     justify-content: space-between
 }
 
-.home-page {
+.setting-page {
     max-width: 32px;
     height: auto;
     float:left;
@@ -143,6 +143,51 @@ body {
     align-items: center;
     cursor:pointer
 }
+#esgContainer{
+    padding:10px;
+    min-height: 480px;
+    max-height: 480px;
+    overflow-y: auto;
+
+    /* Box styles */
+    border: 2px solid lightgrey; /* Border color and width */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+#krx{
+    width:100%;
+    height:140px;
+    border-radius:3px;
+    border:solid 1px #e8e8e8;
+    background-color: #fff;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    cursor:pointer
+}
+#esggrade{
+    width:100%;
+    height:140px;
+    border-radius:3px;
+    border:solid 1px #e8e8e8;
+    background-color: #fff;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    cursor:pointer
+}
+#msci{
+    width:100%;
+    height:140px;
+    border-radius:3px;
+    border:solid 1px #e8e8e8;
+    background-color: #fff;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    cursor:pointer
+}
 .si-logo{
     width:100px;
     height: 40px;
@@ -178,7 +223,7 @@ text-align: center;
 border: 1px solid lightgreen;
 }
 tr td {
-font-size: 10px;
+font-size: 8px;
 padding: 1px;
 }
 /* 링크 스타일 */

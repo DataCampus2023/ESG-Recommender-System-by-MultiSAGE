@@ -40,12 +40,12 @@
     </div>
     <div class="icon-Container">
       <div class="icon1-container">
-        <p class="icon1-title">일반 추천</p>
+        <p class="icon1-title">종합 추천</p>
         <button id="icon1Recommendation"></button>
         <!-- <div class="icon1-description">상품의 전반적인 특성과 ESG Score를 모두 고려해 전반적으로 가장 적합한 상품을 추천합니다.</div> -->
       </div>
       <div class="icon2-container">
-        <p class="icon2-title">맞춤형 추천</p>
+        <p class="icon2-title">선호 요소 추천</p>
         <button id="icon2Recommendation"></button>
         <!-- <div class="icon2-description">상품의 특성 중에서 하나를 선택한 후 이 특성을 중심으로 가장 적합한 상품을 추천합니다.</div> -->
       </div>
@@ -61,11 +61,25 @@
         </button>
       </div>
     </div>
+    <form id="scoreForm" style="display: none;">
+      <div>점수 비율 입력</div>
+      <div>Defalut: E : 0.5, S : 0.3, G : 0.2</div>
+      <label for="E_score">E_score 비율:</label>
+      <input type="number" id="E_score" class="input" name="E_score" value="0.5" step="0.1" required>
+      <br>
+      <label for="S_score">S_score 비율:</label>
+      <input type="number" id="S_score" class="input" name="S_score" value="0.3" step="0.1" required>
+      <br>
+      <label for="G_score">G_score 비율:</label>
+      <input type="number" id="G_score" class="input" name="G_score" value="0.2" step="0.1" required>
+      <br>
+      <button type="submit" id="submitButton">저장</button>
+    </form>
   </div>
 
   <div id="navbar">
     <div class="box">
-      <div class="home-page"><img src="../images/3trcwtn2 (2).png"></div>
+      <div class="home-page"><img src="../images/3trcwtn2 (2).png" id="homePageImg"></div>
       <div class="search-page"><img src="../images/2ntttu49 (2).png"></div>
       <div class="mine-page"><img src="../images/45prf1sf (2).png"></div>
     </div>

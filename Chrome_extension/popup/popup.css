@@ -39,6 +39,16 @@ button {
   border-style: solid;
 }
 
+.settings-button {
+  position: absolute;
+  top: 1px; /* 상단 여백 조정 */
+  right: 1px; /* 오른쪽 여백 조정 */
+  color: #fff;
+  padding: 1px 1px;
+  border: none;
+  border-radius: 1px;
+  cursor: pointer;
+}
 
 /* 실행 시 애니매이션 */
 .exp-image > img, .exp-card, .exp-details, .exp-location, .exp-main, .exp-header {

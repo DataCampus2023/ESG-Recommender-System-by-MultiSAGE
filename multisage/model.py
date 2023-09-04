@@ -99,7 +99,7 @@ def train(dataset, args):
             # print status
             if batch_id % 10 == 0:
                 print("num_epochs:", epoch_id, "||", "batches_per_epoch:", batch_id, "||", "loss:", loss)
-        train_loss_batches_per_epoch = random.sample(loss_batches_per_epoch,40)
+        train_loss_batches_per_epoch = random.sample(loss_batches_per_epoch,int(args.batches_per_epoch*0.8))
         val_loss_batches_per_epoch = [x for x in loss_batches_per_epoch if x not in train_loss_batches_per_epoch]
         train_mean = np.mean(train_loss_batches_per_epoch)
         val_mean = np.mean(val_loss_batches_per_epoch)

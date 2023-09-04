@@ -20,8 +20,8 @@ if __name__ == '__main__':
     parser.add_argument('--hidden-dims', type=int, default=512)
     parser.add_argument('--batch-size', type=int, default=256)
     parser.add_argument('--device', type=str, default='cpu')
-    parser.add_argument('--num-epochs', type=int, default=200) # 4
-    parser.add_argument('--batches-per-epoch', type=int, default=50) # 5000
+    parser.add_argument('--num-epochs', type=int, default=100) # 4
+    parser.add_argument('--batches-per-epoch', type=int, default=25) # 5000
     parser.add_argument('--num-workers', type=int, default=0)
     parser.add_argument('--lr', type=float, default=1e-4) # 원래는 0.00001
     parser.add_argument('-k', type=int, default=10)
@@ -34,4 +34,4 @@ if __name__ == '__main__':
 
     # Write files
     torch.save(model.state_dict(), 'dataset/MultiSAGE_weights_test.pth')
-    np.savez("h_items.npz", item_vectors=h_item.numpy())
+    np.savez("h_items_test.npz", item_vectors=h_item.numpy())

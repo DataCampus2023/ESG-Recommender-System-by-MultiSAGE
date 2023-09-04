@@ -13,6 +13,10 @@ width: 400px;
 height: 600px;
 '>
 
+<button class="settings-button" id="settingButton">
+  <img src="setting.png" alt="설정 아이콘" width="24" height="24">
+</button>
+
 <div id="explore">
   
   <main class="container">
@@ -20,6 +24,22 @@ height: 600px;
       <table id="resultTable" border="1">
       </table>
     </div>
+
+    <form id="scoreForm" style="display: none;">
+      <h1>점수 비율 입력</h1>
+      <h2>Defalut: E : 0.5, S : 0.3, G : 0.2</h2>
+      <label for="E_score">E_score 비율:</label><br>
+      <input type="number" id="E_score" name="E_score" value="0.5" required><br>
+      <br>
+      <label for="S_score">S_score 비율:</label><br>
+      <input type="number" id="S_score" name="S_score" value="0.3" required><br>
+      <br>
+      <label for="G_score">G_score 비율:</label><br>
+      <input type="number" id="G_score" name="G_score" value="0.2" required><br>
+      <br>
+      <button type="button" id="saveButton">저장</button>
+      <button id="backButton2">뒤로 가기</button>
+    </form>
 
     <div class="headers" id="header">
       <img src="esegu7_1.PNG" alt="로고">
@@ -35,7 +55,7 @@ height: 600px;
         <img src="earth.png" class="exp-image"/>
         <div class="exp-details">
           <a href="#" class="exp-card -title" id="generalRecommendation">
-            <h1 class="heading -h1">일반 추천</h1>
+            <h1 class="heading -h1">종합 추천</h1>
             <div class="subheading">상품의 전반적인 특성과 ESG Score를 모두 고려해 전체적으로 가장 적합한 상품을 추천합니다.</div>
           </a>
         </div>
@@ -44,7 +64,7 @@ height: 600px;
         <img src="personal_recommend.png" class="exp-image"/>
         <div class="exp-details">
           <a href="#" class="exp-card -title" id="personalizedRecommendation">
-            <h1 class="heading -h1">맞춤형 추천</h1>
+            <h1 class="heading -h1">선호 요소 <br>추천</h1>
             <div class="subheading">상품의 특성 중에서 하나를 선택한 후 이 특성을 중심으로 가장 적합한 상품을 추천합니다.</div>
           </a>
         </div>

@@ -342,3 +342,15 @@ body {
   align-items: center;
   border-top: 1px solid #dae1e8;
 }
+
+
+.input{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 40px;
+}
+
+#submitButton{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

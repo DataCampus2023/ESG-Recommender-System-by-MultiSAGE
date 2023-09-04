@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 import pandas as pd
 import numpy as np
@@ -38,29 +38,28 @@ ID_to_index_id = {ID: idx for idx, ID in enumerate(m_entities)}
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/get_ESGItem/<product_number>', methods=['GET'])
-def get_esg_item(product_number):
-    h_query = h_item[ID_to_index_id[int(product_number)]]
+@app.route('/get_ESGItem/<productNumber>', methods=['GET'])
+def get_esg_item(productNumber):
+    E_Score = float(request.args.get('E_Score'))
+    S_Score = float(request.args.get('S_Score'))
+    G_Score = float(request.args.get('G_Score'))
+    
+    h_query = h_item[ID_to_index_id[int(productNumber)]]
     index_ids = tree.query(h_query, 100)[1]
     IDs = [index_id_to_ID[idx] for idx in index_ids]
 
     df3 = df1[df1['ID'].isin(IDs)]
-    df3 = df3[df3['상품 카테고리 소분류'] == df1[df1['ID'] == int(product_number)]['상품 카테고리 소분류'].values[0]]
+    df3 = df3[df3['상품 카테고리 소분류'] == df1[df1['ID'] == int(productNumber)]['상품 카테고리 소분류'].values[0]]
     
     grade_scores = {
         'S': 10,
         1: 5,
-        'A+': 8.8,
-        'A': 8.0,
-        'A-': 7.2,
-        'B+': 6.4,
-        'B': 5.6,
-        'B-': 4.8,
-        'C+': 4.0,
-        'C': 3.2,
-        'C-': 2.4,
-        'D+': 1.6,
-        'D': 0.8,
+        'A+': 8.5,
+        'A': 7.0,
+        'B+': 5.5,
+        'B': 4,
+        'C': 2.5,
+        'D': 1,
         '-': 0,
         'X': 0,
         0: 0
@@ -74,9 +73,9 @@ def get_esg_item(product_number):
     df3['친환경'] = df3['특징'].str.contains('비건').astype(int)
     
     df3['ESG_Score'] = (
-        df3['E_Grade'].map(grade_scores) * 0.5 +
-        df3['S_Grade'].map(grade_scores) * 0.3 +
-        df3['G_Grade'].map(grade_scores) * 0.2
+        df3['E_Grade'].map(grade_scores) * E_Score +
+        df3['S_Grade'].map(grade_scores) * S_Score +
+        df3['G_Grade'].map(grade_scores) * G_Score
     ).clip(0, 10) + df3['친환경'].map(grade_scores)
 
     sorted_df = df3.sort_values(by='ESG_Score', ascending=False).head()
@@ -85,14 +84,21 @@ def get_esg_item(product_number):
     
     return sorted_df.to_json(orient="index")
 
-@app.route('/get_attribute/<product_number>', methods=['GET'])
-def get_attribute(product_number):
-    attribute = ast.literal_eval(df1[df1['ID'] == int(product_number)]['특징'].values[0])
+@app.route('/get_attribute/<productNumber>', methods=['GET'])
+def get_attribute(productNumber):
+    E_Score = float(request.args.get('E_Score'))
+    S_Score = float(request.args.get('S_Score'))
+    G_Score = float(request.args.get('G_Score'))
+    attribute = ast.literal_eval(df1[df1['ID'] == int(productNumber)]['특징'].values[0])
     attribute_df = pd.DataFrame(attribute, columns=['attribute'])
     return attribute_df.to_json(orient="index")
 
 @app.route('/get_ESGItem_personal/<addNumbers>', methods=['GET'])
 def get_esg_item_personal(addNumbers):
+    E_Score = float(request.args.get('E_Score'))
+    S_Score = float(request.args.get('S_Score'))
+    G_Score = float(request.args.get('G_Score'))
+    
     addNumbers = addNumbers.split('&')
     product_number = addNumbers[0]
     attribute = unquote(addNumbers[1])
@@ -111,17 +117,12 @@ def get_esg_item_personal(addNumbers):
     grade_scores = {
         'S': 10,
         1: 5,
-        'A+': 8.8,
-        'A': 8.0,
-        'A-': 7.2,
-        'B+': 6.4,
-        'B': 5.6,
-        'B-': 4.8,
-        'C+': 4.0,
-        'C': 3.2,
-        'C-': 2.4,
-        'D+': 1.6,
-        'D': 0.8,
+        'A+': 8.5,
+        'A': 7.0,
+        'B+': 5.5,
+        'B': 4,
+        'C': 2.5,
+        'D': 1,
         '-': 0,
         'X': 0,
         0: 0
@@ -135,9 +136,9 @@ def get_esg_item_personal(addNumbers):
     df3['친환경'] = df3['특징'].str.contains('비건').astype(int)
     
     df3['ESG_Score'] = (
-        df3['E_Grade'].map(grade_scores) * 0.5 +
-        df3['S_Grade'].map(grade_scores) * 0.3 +
-        df3['G_Grade'].map(grade_scores) * 0.2
+        df3['E_Grade'].map(grade_scores) * E_Score +
+        df3['S_Grade'].map(grade_scores) * S_Score +
+        df3['G_Grade'].map(grade_scores) * G_Score
     ).clip(0, 10) + df3['친환경'].map(grade_scores)
 
     sorted_df = df3.sort_values(by='ESG_Score', ascending=False).head()

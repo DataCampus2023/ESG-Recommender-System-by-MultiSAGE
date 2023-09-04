@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const itemContainer = document.getElementsByClassName('item-container')[0];
   const resultContainer = document.getElementsByClassName('result-container')[0];
   const fitRecommendContainer = document.getElementsByClassName('fit-recommend-container')[0];
+  const formContainer = document.getElementById('scoreForm');
   
   const backButton = document.getElementById('backButton');
   const makePersonalizedRecommendation = document.getElementById('makePersonalizedRecommendation');
@@ -21,7 +22,16 @@ document.addEventListener('DOMContentLoaded', function () {
   const itemName= document.getElementById('item-name');
   const itemESGscore= document.getElementsByClassName('item-ESGscore')[1];
   const itemFeatures= document.getElementsByClassName('item-features')[1];
+  const settingButton = document.getElementsByClassName('ESG-setting')[0];
+  const homePageButton = document.getElementById('homePageImg');
+  const submitButton = document.getElementById('submitButton');
 
+  var E_score = document.getElementById("E_score").value;
+  var S_score = document.getElementById("S_score").value;
+  var G_score = document.getElementById("G_score").value;
+
+  
+  
 
   let itemNum = 0;
   let itemMaxNum = 0;
@@ -112,7 +122,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const productNumber = extractProductNumberFromURL(currentURL);
 
         if (productNumber) {
-          fetch(`http://localhost:5000/get_ESGItem/${productNumber}`)
+          E_score = document.getElementById("E_score").value;
+          S_score = document.getElementById("S_score").value;
+          G_score = document.getElementById("G_score").value;
+          fetch(`http://localhost:5000/get_ESGItem/${productNumber}?E_Score=${E_score}&S_Score=${S_score}&G_Score=${G_score}`)
             .then(response => response.json())
             .then(data => {
               responseData = data;
@@ -136,7 +149,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const productNumber = extractProductNumberFromURL(currentURL);
 
         if (productNumber) {
-          fetch(`http://localhost:5000/get_attribute/${productNumber}`)
+          E_score = document.getElementById("E_score").value;
+          S_score = document.getElementById("S_score").value;
+          G_score = document.getElementById("G_score").value;
+          fetch(`http://localhost:5000/get_attribute/${productNumber}?E_Score=${E_score}&S_Score=${S_score}&G_Score=${G_score}`)
             .then(response => response.json())
             .then(data => {
               responseData = data;
@@ -184,7 +200,10 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(addNumbers)
 
         if (productNumber) {
-          fetch(`http://localhost:5000/get_ESGItem_personal/${addNumbers}`)
+          E_score = document.getElementById("E_score").value;
+          S_score = document.getElementById("S_score").value;
+          G_score = document.getElementById("G_score").value;
+          fetch(`http://localhost:5000/get_ESGItem_personal/${addNumbers}?E_Score=${E_score}&S_Score=${S_score}&G_Score=${G_score}  `)
             .then(response => response.json())
             .then(data => {
               responseData = data;
@@ -207,5 +226,31 @@ document.addEventListener('DOMContentLoaded', function () {
     resultContainer.style.display = 'none';
     iconContainer.style.display = 'flex';
   });
+
+  settingButton.addEventListener('click',function () {
+    backContainer.style.display = 'none';
+    fitRecommendContainer.style.display ='none';
+    itemContainer.style.display = 'none';
+    resultContainer.style.display = 'none';
+    iconContainer.style.display = 'none';
+    formContainer.style.display = 'block';
+    submitButton.addEventListener('click',function(){
+      E_score = document.getElementById("E_score").value;
+      S_score = document.getElementById("S_score").value;
+      G_score = document.getElementById("G_score").value;
+      console.log(E_score, S_score, G_score)
+      console.log('click')
+    })
+  });
+
+  homePageButton.addEventListener('click',function() {
+    backContainer.style.display = 'none';
+    fitRecommendContainer.style.display ='none';
+    itemContainer.style.display = 'none';
+    resultContainer.style.display = 'none';
+    iconContainer.style.display = 'flex';
+    formContainer.style.display = 'none';
+  });
+
 });
 

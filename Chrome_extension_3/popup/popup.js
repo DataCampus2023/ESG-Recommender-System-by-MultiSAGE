@@ -6,13 +6,18 @@ function extractProductNumberFromURL(url) {
   document.addEventListener('DOMContentLoaded', function() {
   const buttonContainer = document.getElementById('buttonContainer');
   const tableContainer = document.getElementById('tableContainer');
+  const esgContainer = document.getElementById('esgContainer');
   const radioButtonContainer = document.getElementById('radioButtonContainer');
   const makeResultContainer = document.getElementById('makeResultContainer');
+  const scoreForm = document.getElementById('scoreForm');
   
   const backButton = document.getElementById('backbutton');
   const generalButton = document.getElementById('generalRecommendation'); //일반 추천
   const personalButton = document.getElementById('personalizedRecommendation'); //맞춤 추천
+  const esgButton = document.getElementById('esg'); //ESG 정보
+  const settingButton = document.getElementById('setting')
   const makePersonalizedRecommendation = document.getElementById('makePersonalizedRecommendation');
+  const saveButton = document.getElementById('saveButton')
   
   const table = document.getElementById('resultTable');
   const attribute = document.getElementsByName('attribute');
@@ -22,6 +27,7 @@ function extractProductNumberFromURL(url) {
     makeResultContainer.style.display = 'none';
     radioButtonContainer.style.display = 'none';
     tableContainer.style.display = 'block';
+    scoreForm.style.display = 'none';
     
     for (let i in data) {
       const new_row = table.insertRow();
@@ -115,6 +121,7 @@ function extractProductNumberFromURL(url) {
     buttonContainer.style.display = 'none';
     radioButtonContainer.style.display = 'block';
     makeResultContainer.style.display = 'block';
+    scoreForm.style.display = 'none';
   
     for(let i in data){
       for(let j in data[i]){
@@ -143,9 +150,12 @@ function extractProductNumberFromURL(url) {
       if (currentTab && currentTab.url) {
         const currentURL = currentTab.url;
         const productNumber = extractProductNumberFromURL(currentURL);
+        var E_score = document.getElementById("E_score").value;
+        var S_score = document.getElementById("S_score").value;
+        var G_score = document.getElementById("G_score").value;
   
         if (productNumber) {
-          fetch(`http://localhost:5000/get_ESGItem/${productNumber}`)
+          fetch(`http://localhost:5000/get_ESGItem/${productNumber}?E_Score=${E_score}&S_Score=${S_score}&G_Score=${G_score}`)
             .then(response => response.json())
             .then(data => {
               showContent(data);
@@ -165,9 +175,12 @@ function extractProductNumberFromURL(url) {
       if (currentTab && currentTab.url) {
         const currentURL = currentTab.url;
         const productNumber = extractProductNumberFromURL(currentURL);
+        var E_score = document.getElementById("E_score").value;
+        var S_score = document.getElementById("S_score").value;
+        var G_score = document.getElementById("G_score").value;
   
         if (productNumber) {
-          fetch(`http://localhost:5000/get_attribute/${productNumber}`)
+          fetch(`http://localhost:5000/get_attribute/${productNumber}?E_Score=${E_score}&S_Score=${S_score}&G_Score=${G_score}`)
             .then(response => response.json())
             .then(data => {
               makeRadiobutton(data);
@@ -192,12 +205,15 @@ function extractProductNumberFromURL(url) {
             console.log(checkNode)
           }
         }) 
-        const encodedCheckNode = encodeURIComponent(checkNode);
+        
         const addNumbers = productNumber.toString() + '&' + checkNode
+        var E_score = document.getElementById("E_score").value;
+        var S_score = document.getElementById("S_score").value;
+        var G_score = document.getElementById("G_score").value;
         console.log(addNumbers)
   
         if (productNumber && checkNode != '없음') {
-          fetch(`http://localhost:5000/get_ESGItem_personal/${addNumbers}`)
+          fetch(`http://localhost:5000/get_ESGItem_personal/${addNumbers}?E_Score=${E_score}&S_Score=${S_score}&G_Score=${G_score}`)
             .then(response => response.json())
             .then(data => {
               showContent(data);
@@ -209,7 +225,7 @@ function extractProductNumberFromURL(url) {
         }
   
         else if (productNumber || checkNode == '없음') {
-          fetch(`http://localhost:5000/get_ESGItem/${productNumber}`)
+          fetch(`http://localhost:5000/get_ESGItem/${productNumber}?E_Score=${E_score}&S_Score=${S_score}&G_Score=${G_score}`)
             .then(response => response.json())
             .then(data => {
               showContent(data);
@@ -226,6 +242,8 @@ function extractProductNumberFromURL(url) {
   backButton.addEventListener('click', function() {
     tableContainer.style.display = 'none';
     makeResultContainer.style.display = 'none';
+    esgContainer.style.display = 'none'
+    scoreForm.style.display = 'none'
     buttonContainer.style.display = 'block';
     const table_r_count = table.rows.length;
     for(let i = 0; i <= table_r_count; i++){
@@ -239,4 +257,46 @@ function extractProductNumberFromURL(url) {
         
     }
     });
+    esgButton.addEventListener('click', function() {
+      tableContainer.style.display = 'none';
+      makeResultContainer.style.display = 'none';
+      buttonContainer.style.display = 'none'
+      esgContainer.style.display = 'block';
+      scoreForm.style.display = 'none';
+      const table_r_count = table.rows.length;
+      for(let i = 0; i <= table_r_count; i++){
+          table.deleteRow(-1);
+      }
+      const children = radioButtonContainer.children;
+      for (let i = children.length - 1; i >= 0; i--) {
+          const child = children[i];
+  
+          radioButtonContainer.removeChild(child);
+          
+      }
+    });
+    settingButton.addEventListener('click', function() {
+      tableContainer.style.display = 'none';
+      makeResultContainer.style.display = 'none';
+      buttonContainer.style.display = 'none'
+      esgContainer.style.display = 'none';
+      scoreForm.style.display = 'block';
+      const table_r_count = table.rows.length;
+      for(let i = 0; i <= table_r_count; i++){
+          table.deleteRow(-1);
+      }
+      const children = radioButtonContainer.children;
+      for (let i = children.length - 1; i >= 0; i--) {
+          const child = children[i];
+  
+          radioButtonContainer.removeChild(child);
+          
+      }
+      });
+      saveButton.addEventListener('click', function() {
+        var E_score = document.getElementById("E_score").value;
+        var S_score = document.getElementById("S_score").value;
+        var G_score = document.getElementById("G_score").value;
+        console.log(E_score, S_score, G_score)
+      });
   });

@@ -11,11 +11,15 @@ const backContainer = document.getElementById('backContainer');
 const tableContainer = document.getElementById('tableContainer');
 const radioButtonContainer = document.getElementById('radioButtonContainer');
 const makeResultContainer = document.getElementById('makeResultContainer');
+const scoreForm = document.getElementById('scoreForm');
 
 const backButton = document.getElementById('backButton');
+const backButton2 = document.getElementById('backButton2');
 const personalButton = document.getElementById('personalizedRecommendation'); //맞춤 추천
 const makePersonalizedRecommendation = document.getElementById('makePersonalizedRecommendation');
 const generalButton = document.getElementById('generalRecommendation'); //일반 추천
+const settingButton = document.getElementById('settingButton');
+const saveButton = document.getElementById('saveButton')
 
 const table = document.getElementById('resultTable');
 const attribute = document.getElementsByName('attribute');
@@ -154,9 +158,12 @@ generalButton.addEventListener('click', function() {
     if (currentTab && currentTab.url) {
       const currentURL = currentTab.url;
       const productNumber = extractProductNumberFromURL(currentURL);
+      var E_score = document.getElementById("E_score").value;
+      var S_score = document.getElementById("S_score").value;
+      var G_score = document.getElementById("G_score").value;
 
       if (productNumber) {
-        fetch(`http://localhost:5000/get_ESGItem/${productNumber}`)
+        fetch(`http://localhost:5000/get_ESGItem/${productNumber}?E_Score=${E_score}&S_Score=${S_score}&G_Score=${G_score}`)
           .then(response => response.json())
           .then(data => {
             showContent(data);
@@ -176,9 +183,12 @@ personalButton.addEventListener('click', function() {
     if (currentTab && currentTab.url) {
       const currentURL = currentTab.url;
       const productNumber = extractProductNumberFromURL(currentURL);
+      var E_score = document.getElementById("E_score").value;
+      var S_score = document.getElementById("S_score").value;
+      var G_score = document.getElementById("G_score").value;
 
       if (productNumber) {
-        fetch(`http://localhost:5000/get_attribute/${productNumber}`)
+        fetch(`http://localhost:5000/get_attribute/${productNumber}?E_Score=${E_score}&S_Score=${S_score}&G_Score=${G_score}`)
           .then(response => response.json())
           .then(data => {
             makeRadiobutton(data);
@@ -199,14 +209,19 @@ makePersonalizedRecommendation.addEventListener('click', function() {
       const productNumber = extractProductNumberFromURL(currentURL);
       attribute.forEach((node) => {
         if(node.checked)  {
-          chackNodes = node.value;
+          checkNode = node.value;
+          console.log(checkNode)
         }
       }) 
-      const addNumbers = productNumber.toString() + '&' + chackNodes
+      
+      const addNumbers = productNumber.toString() + '&' + checkNode
+      var E_score = document.getElementById("E_score").value;
+      var S_score = document.getElementById("S_score").value;
+      var G_score = document.getElementById("G_score").value;
       console.log(addNumbers)
 
-      if (productNumber && chackNodes !== '없음') {
-        fetch(`http://localhost:5000/get_ESGItem_personal/${addNumbers}`)
+      if (productNumber && checkNode != '없음') {
+        fetch(`http://localhost:5000/get_ESGItem_personal/${addNumbers}?E_Score=${E_score}&S_Score=${S_score}&G_Score=${G_score}`)
           .then(response => response.json())
           .then(data => {
             showContent(data);
@@ -217,8 +232,8 @@ makePersonalizedRecommendation.addEventListener('click', function() {
           console.log('성공!')
       }
 
-      else if (productNumber && chackNodes === '없음') {
-        fetch(`http://localhost:5000/get_ESGItem/${productNumber}`)
+      else if (productNumber || checkNode == '없음') {
+        fetch(`http://localhost:5000/get_ESGItem/${productNumber}?E_Score=${E_score}&S_Score=${S_score}&G_Score=${G_score}`)
           .then(response => response.json())
           .then(data => {
             showContent(data);
@@ -232,10 +247,34 @@ makePersonalizedRecommendation.addEventListener('click', function() {
   });
 });
 
+settingButton.addEventListener('click', function() {
+  backContainer.style.display = 'none';
+  tableContainer.style.display = 'none';
+  makeResultContainer.style.display = 'none';
+  header.style.display = 'none';
+  radioButtonHeader.style.display = 'none';
+  scoreForm.style.display = 'block';
+  buttonContainer.style.display = 'none';
+
+});
+
+document.getElementById('scoreForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const E_score = parseFloat(document.getElementById('E_score').value);
+  const S_score = parseFloat(document.getElementById('S_score').value);
+  const G_score = parseFloat(document.getElementById('G_score').value);
+  
+  // 여기서 E_score, S_score, G_score를 사용하여 원하는 작업을 수행하세요.
+  // 이 예제에서는 간단히 계산하여 결과를 표시합니다.
+  const totalScore = E_score + S_score + G_score;
+  document.getElementById('result').textContent = `총 점수: ${totalScore}`;
+});
+
 backButton.addEventListener('click', function() {
   backContainer.style.display = 'none';
   tableContainer.style.display = 'none';
   makeResultContainer.style.display = 'none';
+  scoreForm.style.display = 'none';
   header.style.display = 'flex';
   radioButtonHeader.style.display = 'none';
   buttonContainer.style.display = 'block';
@@ -248,8 +287,42 @@ backButton.addEventListener('click', function() {
   for (let i = children.length - 1; i >= 0; i--) {
     const child = children[i];
 
-    radioButtonContainer.removeChild(child);
-    
-}
-});
+    radioButtonContainer.removeChild(child);  
+  }
+  });
+
+  backButton2.addEventListener('click', function() {
+    backContainer.style.display = 'none';
+    tableContainer.style.display = 'none';
+    makeResultContainer.style.display = 'none';
+    scoreForm.style.display = 'none';
+    header.style.display = 'flex';
+    radioButtonHeader.style.display = 'none';
+    buttonContainer.style.display = 'block';
+  
+    const table_r_count = table.rows.length;
+    for(let i = 0; i <= table_r_count; i++){
+      table.deleteRow(-1);
+    }
+    const children = radioButtonContainer.children;
+    for (let i = children.length - 1; i >= 0; i--) {
+      const child = children[i];
+  
+      radioButtonContainer.removeChild(child);  
+    }
+    });
+
+  saveButton.addEventListener('click', function() {
+    backContainer.style.display = 'none';
+    tableContainer.style.display = 'none';
+    makeResultContainer.style.display = 'none';
+    scoreForm.style.display = 'none';
+    header.style.display = 'flex';
+    radioButtonHeader.style.display = 'none';
+    buttonContainer.style.display = 'block';
+    var E_score = document.getElementById("E_score").value;
+    var S_score = document.getElementById("S_score").value;
+    var G_score = document.getElementById("G_score").value;
+    console.log(E_score, S_score, G_score)
+  });
 });
